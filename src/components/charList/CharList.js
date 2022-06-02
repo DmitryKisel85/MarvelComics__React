@@ -20,7 +20,7 @@ const CharList = (props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	// метод, отвечающий за запрос на сервер
+	//  отвечающий за запрос на сервер
 	const onRequest = (offset, initial) => {
 		initial ? setNewItemLoading(false) : setNewItemLoading(true);
 		getAllCharacters(offset).then(onCharListLoaded);
