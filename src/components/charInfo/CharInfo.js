@@ -22,7 +22,6 @@ const CharInfo = (props) => {
 	}, [props.charId]);
 
 	// запрос на сервер и получение нового персонажа
-
 	const updateChar = () => {
 		const { charId } = props;
 		if (!charId) return;
