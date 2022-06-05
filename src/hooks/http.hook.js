@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 
+// кастомный хук запроса на сервер с обработкой ошибок
 export const useHttp = () => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);

@@ -20,13 +20,13 @@ const CharList = (props) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	//  отвечающий за запрос на сервер
+	//  функция запроса дополнительных элементов для листа персонажей
 	const onRequest = (offset, initial) => {
 		initial ? setNewItemLoading(false) : setNewItemLoading(true);
 		getAllCharacters(offset).then(onCharListLoaded);
 	};
 
-	// загрузка данных о персонаже в стейт и изменение статуса загрузки
+	// загрузка данных листа персонажей в стейт и изменение статуса загрузки
 	const onCharListLoaded = (newCharList) => {
 		let ended = false;
 		if (newCharList.length < 9) {
@@ -34,13 +34,13 @@ const CharList = (props) => {
 		}
 
 		setCharList((charList) => [...charList, ...newCharList]);
-		setNewItemLoading((newItemLoading) => false);
+		setNewItemLoading(false);
 		setOffset((offset) => offset + 9);
-		setCharEnded((charEnded) => ended);
+		setCharEnded(ended);
 	};
 
+	// добавление стилей при клике на персонажа
 	const itemRefs = useRef([]);
-
 	const focusOnItem = (id) => {
 		itemRefs.current.forEach((item) => item.classList.remove("char__item_selected"));
 		itemRefs.current[id].classList.add("char__item_selected");
@@ -49,10 +49,9 @@ const CharList = (props) => {
 
 	function renderItems(arr) {
 		const items = arr.map(({ id, thumbnail, name }, i) => {
-			let imgStyle = { objectFit: "cover" };
-			if (thumbnail === "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg") {
-				imgStyle = { objectFit: "unset" };
-			}
+			// меняем стиль изображения object-fit, если у персонажа нет изображения
+			const imageNotFoundSrc = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg";
+
 			return (
 				<li
 					className='char__item'
@@ -70,7 +69,7 @@ const CharList = (props) => {
 					tabIndex={0}
 					ref={(elem) => (itemRefs.current[i] = elem)}
 				>
-					<img src={thumbnail} alt={name} style={imgStyle} />
+					<img src={thumbnail} alt={name} style={thumbnail === imageNotFoundSrc ? { objectFit: "contain" } : null} />
 					<div className='char__name'>{name}</div>
 				</li>
 			);

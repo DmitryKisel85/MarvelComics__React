@@ -20,11 +20,13 @@ const ComicsList = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	// загрузка дополнительного списка комиксов по запросу
 	const onRequest = (offset, initial) => {
 		initial ? setnewItemLoading(false) : setnewItemLoading(true);
 		getAllComics(offset).then(onComicsListLoaded);
 	};
 
+	// если число оставшихся комиксов в api < 8, то убираем кнопку LOAD MORE
 	const onComicsListLoaded = (newComicsList) => {
 		let ended = false;
 		if (newComicsList.length < 8) {
@@ -37,13 +39,13 @@ const ComicsList = () => {
 	};
 
 	function renderItems(arr) {
-		const items = arr.map((item, i) => {
+		const items = arr.map(({ id, thumbnail, title, price }, i) => {
 			return (
 				<li className='comics__item' key={i}>
-					<Link to={`/comics/${item.id}`}>
-						<img src={item.thumbnail} alt={item.title} className='comics__item-img' />
-						<div className='comics__item-name'>{item.title}</div>
-						<div className='comics__item-price'>{item.price}</div>
+					<Link to={`/comics/${id}`}>
+						<img src={thumbnail} alt={title} className='comics__item-img' />
+						<div className='comics__item-name'>{title}</div>
+						<div className='comics__item-price'>{price}</div>
 					</Link>
 				</li>
 			);

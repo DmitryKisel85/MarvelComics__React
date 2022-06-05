@@ -1,5 +1,6 @@
 import { useHttp } from "../hooks/http.hook";
 
+// функция запроса к api и получения нужных персонажей/комиксов
 const useMarvelService = () => {
 	const { loading, request, error, clearError } = useHttp();
 
@@ -27,6 +28,7 @@ const useMarvelService = () => {
 		return _transformComics(res.data.results[0]);
 	};
 
+	// редактирование полученной информации из api и приведение её в нужный вид
 	const _transformCharacter = (char) => {
 		return {
 			id: char.id,
@@ -39,6 +41,7 @@ const useMarvelService = () => {
 		};
 	};
 
+	// редактирование полученной информации из api и приведение её в нужный вид
 	const _transformComics = (comics) => {
 		return {
 			id: comics.id,

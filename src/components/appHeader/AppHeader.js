@@ -1,7 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import "./appHeader.scss";
 
 const AppHeader = () => {

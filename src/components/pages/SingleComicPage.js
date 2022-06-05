@@ -11,7 +11,6 @@ const SingleComicPage = () => {
 	const { comicId } = useParams();
 	const [comic, setComic] = useState(null);
 
-	// экземпляр функции работы с сервером
 	const { loading, error, getComic, clearError } = useMarvelService();
 
 	useEffect(() => {

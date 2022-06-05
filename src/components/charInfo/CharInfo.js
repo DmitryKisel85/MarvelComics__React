@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -10,22 +8,19 @@ import Skeleton from "../skeleton/Skeleton";
 
 import "./charInfo.scss";
 
-const CharInfo = (props) => {
+const CharInfo = ({ charId }) => {
 	const [char, setChar] = useState(null);
 
-	// экземпляр функции работы с сервером
 	const { loading, error, getCharacter, clearError } = useMarvelService();
 
 	useEffect(() => {
 		updateChar();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [props.charId]);
+	}, [charId]);
 
 	// запрос на сервер и получение нового персонажа
 	const updateChar = () => {
-		const { charId } = props;
 		if (!charId) return;
-
 		clearError();
 		getCharacter(charId).then(onCharLoaded);
 	};
