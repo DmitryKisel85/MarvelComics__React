@@ -1,41 +1,6 @@
 import { useHttp } from "../hooks/http.hook";
 
-interface Urls {
-    type: string;
-    url: string;
-}
-
-interface CharAndComics {
-    id: string;
-    description: string;
-    thumbnail: {
-        path: string;
-        extension: string;
-    };
-}
-
-interface Char extends CharAndComics {
-    name: string;
-    urls: Urls[];
-    comics: {
-        items: {
-            resourceURI: string;
-            name: string;
-        };
-    };
-}
-
-interface Comics extends CharAndComics {
-    title: string;
-    pageCount: string;
-    textObjects: {
-        language: string;
-    };
-    prices: {
-        type: string;
-        price: string;
-    };
-}
+import { Char, Comics, TransformedChar, TransformedComic } from "types/generalTypes";
 
 // функция запроса к api и получения нужных персонажей/комиксов
 const useMarvelService = () => {
@@ -45,28 +10,28 @@ const useMarvelService = () => {
     const _apiKey = "apikey=aa0bc64c6fe58d8e64b31bec28af3b39";
     const _baseOffset = 210;
 
-    const getAllCharacters = async (offset = _baseOffset) => {
+    const getAllCharacters = async (offset = _baseOffset): Promise<TransformedChar[]> => {
         const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
         return res.data.results.map(_transformCharacter);
     };
 
-    const getCharacter = async (id: string) => {
+    const getCharacter = async (id: number): Promise<TransformedChar> => {
         const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
         return _transformCharacter(res.data.results[0]);
     };
 
-    const getAllComics = async (offset = 0) => {
+    const getAllComics = async (offset = 0): Promise<TransformedComic[]> => {
         const res = await request(`${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${offset}&${_apiKey}`);
         return res.data.results.map(_transformComics);
     };
 
-    const getComic = async (id: string) => {
+    const getComic = async (id: string): Promise<TransformedComic> => {
         const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
         return _transformComics(res.data.results[0]);
     };
 
     // редактирование полученной информации из api и приведение её в нужный вид
-    const _transformCharacter = (char: Char) => {
+    const _transformCharacter = (char: Char): TransformedChar => {
         return {
             id: char.id,
             name: char.name,
@@ -81,7 +46,7 @@ const useMarvelService = () => {
     };
 
     // редактирование полученной информации из api и приведение её в нужный вид
-    const _transformComics = (comics: Comics) => {
+    const _transformComics = (comics: Comics): TransformedComic => {
         return {
             id: comics.id,
             title: comics.title,

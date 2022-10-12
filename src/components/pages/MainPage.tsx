@@ -8,9 +8,9 @@ import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 import decoration from "../../resources/img/vision.png";
 
 const MainPage = () => {
-    const [selectedChar, setSelectedChar] = useState<string | null>(null);
+    const [selectedChar, setSelectedChar] = useState<number | null>(null);
 
-    const onCharSelected = (id: string) => {
+    const onCharSelected = (id: number) => {
         setSelectedChar(id);
     };
     return (
