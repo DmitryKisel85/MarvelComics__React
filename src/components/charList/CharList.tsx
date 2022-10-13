@@ -4,6 +4,7 @@ import useMarvelService from "../../services/MarvelService";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
+import { imageNotFoundUrl } from "services/imageNotFoundUrl";
 import { Charlist } from "types/generalTypes";
 
 import "./charList.scss";
@@ -22,6 +23,7 @@ const CharList = (props: CharlistProps) => {
 
     useEffect(() => {
         onRequest(offset, true);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -54,13 +56,6 @@ const CharList = (props: CharlistProps) => {
 
     function renderItems(arr: Charlist) {
         const items = arr.map(({ id, thumbnail, name }, i) => {
-            // меняем стиль изображения object-fit, если у персонажа нет изображения
-            const imageNotFoundSrc = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg";
-
-            let imageStyle = thumbnail === imageNotFoundSrc ? "contain" : "fill";
-            const img = document.getElementById("charlistElementImage");
-            img?.style.setProperty("objectFit", imageStyle);
-
             return (
                 <li
                     className="char__item"
@@ -83,7 +78,11 @@ const CharList = (props: CharlistProps) => {
                         }
                     }}
                 >
-                    <img src={thumbnail} alt={name} id="charlistElementImage" />
+                    <img
+                        src={thumbnail}
+                        alt={name}
+                        style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
+                    />
                     <div className="char__name">{name}</div>
                 </li>
             );

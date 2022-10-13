@@ -6,6 +6,8 @@ import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Skeleton from "../skeleton/Skeleton";
 
+import { imageNotFoundUrl } from "services/imageNotFoundUrl";
+
 import { TransformedChar } from "types/generalTypes";
 
 import "./charInfo.scss";
@@ -58,17 +60,14 @@ interface ViewProps {
 const View = ({ char }: ViewProps) => {
     const { name, description, thumbnail, homepage, wiki, comics } = char;
 
-    // меняем стиль изображения object-fit, если у персонажа нет изображения
-    const imageNotFoundSrc = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg";
-
-    let imageStyle = thumbnail === imageNotFoundSrc ? "contain" : "fill";
-    const img = document.getElementById("charInfoImage");
-    img?.style.setProperty("objectFit", imageStyle);
-
     return (
         <>
             <div className="char__basics">
-                <img src={thumbnail} alt={name} id="charInfoImage" />
+                <img
+                    src={thumbnail}
+                    alt={name}
+                    style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
+                />
                 <div>
                     <div className="char__info-name">{name}</div>
                     <div className="char__btns">

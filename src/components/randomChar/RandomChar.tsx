@@ -4,6 +4,8 @@ import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import useMarvelService from "../../services/MarvelService";
 
+import { imageNotFoundUrl } from "services/imageNotFoundUrl";
+
 import { TransformedChar } from "types/generalTypes";
 
 import "./randomChar.scss";
@@ -68,16 +70,14 @@ interface ViewProps {
 const View = ({ char }: ViewProps) => {
     const { name, description, thumbnail, homepage, wiki } = char;
 
-    // меняем стиль изображения object-fit, если у персонажа нет изображения
-    const imageNotFoundSrc = "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg";
-
-    let imageStyle = thumbnail === imageNotFoundSrc ? "contain" : "fill";
-    const img = document.getElementById("randomcharImage");
-    img?.style.setProperty("objectFit", imageStyle);
-
     return (
         <div className="randomchar__block">
-            <img src={thumbnail} alt="Random character" className="randomchar__img" id="randomcharImage" />
+            <img
+                src={thumbnail}
+                alt="Random character"
+                className="randomchar__img"
+                style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
+            />
             <div className="randomchar__info">
                 <p className="randomchar__name">{name}</p>
                 <p className="randomchar__descr">{description}</p>
