@@ -27,7 +27,8 @@
 			"@style/*": ["style/*"],
 			"@hooks/*": ["hooks/*"],
 			"@types/*": ["types/*"],
-			"@assets/*": ["assets/*"]
+			"@assets/*": ["assets/*"],
+			"@constants/*": ["constants/*"]
 		}
 	},
 	"include": ["src", "src/types/index/.ts"],

@@ -14,10 +14,6 @@
 		object-fit: cover;
 		transform: translate(-15px, -15px);
 	}
-	&_selected {
-		box-shadow: 0 5px 20px $main-color;
-		transform: translateY(-8px);
-	}
 }
 
 .text {
@@ -26,4 +22,9 @@
 	line-height: 29px;
 	text-transform: uppercase;
 	color: #fff;
+}
+
+.active {
+	box-shadow: 0 5px 20px $main-color;
+	transform: translateY(-8px);
 }

@@ -7,27 +7,14 @@ import { ITransformedChar } from "types";
 import s from "./charItem.module.scss";
 
 interface ICharItemProps {
-	item: ITransformedChar;
-	onCharSelected: (id: number) => void;
-	focusOnItem: (id: number) => void;
-	idx: number;
+	char: ITransformedChar;
+	isActive?: boolean;
+	onClick: () => void;
 }
 
-const CharItem = ({ item: { id, name, thumbnail }, onCharSelected, focusOnItem, idx }: ICharItemProps) => {
+const CharItem = ({ char: { name, thumbnail }, isActive, onClick }: ICharItemProps) => {
 	return (
-		<li
-			className={s.root}
-			onClick={() => {
-				onCharSelected(id);
-				focusOnItem(idx);
-			}}
-			onKeyPress={(e) => {
-				if (e.key === " " || e.key === "Enter") {
-					onCharSelected(id);
-					focusOnItem(idx);
-				}
-			}}
-			tabIndex={0}>
+		<li className={cx(s.root, isActive && s.active)} tabIndex={0} onClick={onClick}>
 			<img
 				src={thumbnail}
 				alt={name}

@@ -7,6 +7,8 @@ import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 import decoration from "../../resources/img/vision.png";
 
+import s from "./mainPage.module.scss";
+
 const MainPage = () => {
 	const [selectedChar, setSelectedChar] = useState<number | null>(null);
 
@@ -18,9 +20,9 @@ const MainPage = () => {
 			<ErrorBoundary>
 				<RandomChar />
 			</ErrorBoundary>
-			<div className='char__content'>
+			<div className={s.box}>
 				<ErrorBoundary>
-					<CharList onCharSelected={onCharSelected} />
+					<CharList onCharSelected={onCharSelected} selectedChar={selectedChar} />
 				</ErrorBoundary>
 				<ErrorBoundary>
 					<CharInfo charId={selectedChar} />

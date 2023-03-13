@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
+import cx from "classnames";
 
 import useMarvelService from "services/MarvelService";
 import Spinner from "../spinner/Spinner";
@@ -6,90 +7,73 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 
 import { CharItem } from "components/charItem";
 
-import { CharListType } from "types";
+import { API_OFFSET } from "constant";
 
-import "./charList.scss";
+import type { CharListType } from "types";
+
+import s from "./charList.module.scss";
 
 interface CharlistProps {
 	onCharSelected: (id: number) => void;
+	selectedChar: number | null;
 }
 
-const CharList = ({ onCharSelected }: CharlistProps) => {
+const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 	const [charList, setCharList] = useState<CharListType | []>([]);
-	const [newItemLoading, setNewItemLoading] = useState(false);
-	const [offset, setOffset] = useState(210);
-	const [charEnded, setCharEnded] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+	const [offset, setOffset] = useState(API_OFFSET);
+	const [charListEnded, setCharListEnded] = useState(false);
 
 	const { loading, error, getAllCharacters } = useMarvelService();
 
 	useEffect(() => {
-		onRequest(offset, true);
+		loadMoreChars(offset, true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	//  функция запроса дополнительных элементов для листа персонажей
-	const onRequest = (offset: number, initial?: boolean) => {
-		initial ? setNewItemLoading(false) : setNewItemLoading(true);
+	const loadMoreChars = (offset: number, initial?: boolean) => {
+		initial ? setIsLoading(false) : setIsLoading(true);
 		getAllCharacters(offset).then(onCharListLoaded);
 	};
 
-	// загрузка данных листа персонажей в стейт и изменение статуса загрузки
-	const onCharListLoaded = (newCharList: CharListType) => {
+	const onCharListLoaded = (loadedCharList: CharListType) => {
 		let ended = false;
-		if (newCharList.length < 9) {
+		if (loadedCharList.length < 9) {
 			ended = true;
 		}
 
-		setCharList((charList) => [...charList, ...newCharList]);
-		setNewItemLoading(false);
+		setCharList((charList) => [...charList, ...loadedCharList]);
+		setIsLoading(false);
 		setOffset((offset) => offset + 9);
-		setCharEnded(ended);
+		setCharListEnded(ended);
 	};
 
-	// добавление стилей при клике на персонажа
-	const itemRefs = useRef<HTMLLIElement[] | []>([]);
+	const handleCharClick = (id: number) => onCharSelected(id);
+	const handleBtnClick = (offset: number) => loadMoreChars(offset);
 
-	const focusOnItem = (id: number) => {
-		if (!itemRefs.current) throw Error("itemRefs are not assigned");
-
-		itemRefs.current.forEach((item) => item.classList.remove("char__item_selected"));
-		itemRefs.current[id].classList.add("char__item_selected");
-		itemRefs.current[id].focus();
-	};
-
-	function renderItems(arr: CharListType) {
-		const items = arr.map((item, idx) => {
-			return (
-				<CharItem
-					key={item.id}
-					item={item}
-					onCharSelected={onCharSelected}
-					focusOnItem={focusOnItem}
-					idx={idx}
-				/>
-			);
-		});
-
-		return <ul className='char__grid'>{items}</ul>;
-	}
-
-	const charListGrid = renderItems(charList);
-
-	const errorMessage = error ? <ErrorMessage /> : null;
-	const spinner = loading && !newItemLoading ? <Spinner /> : null;
+	if (error) return <ErrorMessage />;
+	if (loading && !isLoading) return <Spinner />;
 
 	return (
-		<div className='char__list'>
-			{errorMessage}
-			{spinner}
-			{charListGrid}
-			<button
-				className='button button__main button__long'
-				disabled={newItemLoading}
-				onClick={() => onRequest(offset)}
-				style={{ display: charEnded ? "none" : "block" }}>
-				<div className='inner'>load more</div>
-			</button>
+		<div>
+			<ul className={s.list}>
+				{charList.map((char) => (
+					<CharItem
+						key={char.id}
+						char={char}
+						isActive={char.id === selectedChar}
+						onClick={() => handleCharClick(char.id)}
+					/>
+				))}
+			</ul>
+			{!charListEnded && (
+				<button
+					className={cx(s.btn, s.btnMain, s.btnLong)}
+					disabled={isLoading}
+					onClick={() => handleBtnClick(offset)}>
+					<div className={s.btnInner}>load more</div>
+				</button>
+			)}
 		</div>
 	);
 };
