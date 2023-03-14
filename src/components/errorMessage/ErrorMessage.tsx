@@ -6,4 +6,4 @@ const ErrorMessage = () => {
 	return <img className='error-message' src={img} alt='error' />;
 };
 
-export default ErrorMessage;
+export { ErrorMessage };

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import cx from "classnames";
 
-import useMarvelService from "services/MarvelService";
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
+import { useMarvelService } from "services/useMarvelService";
 
+import { Spinner } from "components/spinner";
+import { ErrorMessage } from "components/errorMessage";
 import { CharItem } from "components/charItem";
 
 import { API_OFFSET } from "constant";

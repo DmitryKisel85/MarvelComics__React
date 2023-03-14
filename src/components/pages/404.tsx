@@ -1,4 +1,4 @@
-import ErrorMessage from "../errorMessage/ErrorMessage";
+import { ErrorMessage } from "components/errorMessage";
 import { Link } from "react-router-dom";
 
 const Page404 = () => {
@@ -6,7 +6,15 @@ const Page404 = () => {
 		<div>
 			<ErrorMessage />
 			<p style={{ textAlign: "center", fontSize: "24px", marginBottom: "24px" }}>Page doesn't exist</p>
-			<Link to='/' style={{ display: "block", textAlign: "center", fontSize: "24px", fontWeight: "bold", textDecoration: "underline" }}>
+			<Link
+				to='/'
+				style={{
+					display: "block",
+					textAlign: "center",
+					fontSize: "24px",
+					fontWeight: "bold",
+					textDecoration: "underline",
+				}}>
 				Back to main page
 			</Link>
 		</div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import RandomChar from "../randomChar/RandomChar";
 import { CharList } from "components/charList";
-import CharInfo from "../charInfo/CharInfo";
+import { CharInfo } from "components/charInfo";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 import decoration from "../../resources/img/vision.png";

@@ -61,4 +61,4 @@ const useMarvelService = () => {
 	return { loading, error, clearError, getAllCharacters, getCharacter, getAllComics, getComic };
 };
 
-export default useMarvelService;
+export { useMarvelService };

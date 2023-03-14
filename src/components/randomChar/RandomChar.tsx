@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"; /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import useMarvelService from "../../services/MarvelService";
+import { Spinner } from "components/spinner";
+import { ErrorMessage } from "components/errorMessage";
+import { useMarvelService } from "services/useMarvelService";
 
 import { imageNotFoundUrl } from "services/imageNotFoundUrl";
 
