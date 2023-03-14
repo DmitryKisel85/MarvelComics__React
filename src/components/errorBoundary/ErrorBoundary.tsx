@@ -19,4 +19,4 @@ class ErrorBoundary extends Component<{ children: React.ReactNode }, { error: bo
 	}
 }
 
-export default ErrorBoundary;
+export { ErrorBoundary };

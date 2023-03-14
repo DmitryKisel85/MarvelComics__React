@@ -3,9 +3,9 @@ import { useState } from "react";
 import { RandomChar } from "components/randomChar";
 import { CharList } from "components/charList";
 import { CharInfo } from "components/charInfo";
-import ErrorBoundary from "../errorBoundary/ErrorBoundary";
+import { ErrorBoundary } from "components/errorBoundary";
 
-import decoration from "../../resources/img/vision.png";
+import decoration from "resources/img/vision.png";
 
 import s from "./mainPage.module.scss";
 
