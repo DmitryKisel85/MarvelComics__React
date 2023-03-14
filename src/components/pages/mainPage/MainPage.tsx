@@ -33,4 +33,4 @@ const MainPage = () => {
 	);
 };
 
-export default MainPage;
+export { MainPage };

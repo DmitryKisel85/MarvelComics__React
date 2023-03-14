@@ -1,13 +1,15 @@
-import { lazy, Suspense } from "react";
+import { Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import { lazyImport } from "services/lazyImport";
 
 import { AppHeader } from "components/appHeader";
 import { Spinner } from "components/spinner";
 
-const Page404 = lazy(() => import("components/pages/404"));
-const MainPage = lazy(() => import("components/pages/MainPage"));
-const ComicsPage = lazy(() => import("components/pages/ComicsPage"));
-const SingleComicPage = lazy(() => import("components/pages/SingleComicPage"));
+const { Page404 } = lazyImport(() => import("components/pages/page404"), "Page404");
+const { MainPage } = lazyImport(() => import("components/pages/mainPage"), "MainPage");
+const { ComicsPage } = lazyImport(() => import("components/pages/comicsPage"), "ComicsPage");
+const { SingleComicPage } = lazyImport(() => import("components/pages/singleComicPage"), "SingleComicPage");
 
 const App = () => {
 	return (

@@ -1,0 +1,20 @@
+.root {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.text {
+	text-align: center;
+	font-size: 24px;
+	margin-bottom: 24px;
+}
+
+.link {
+	display: block;
+	text-align: center;
+	font-size: 24px;
+	font-weight: bold;
+	text-decoration: underline;
+}
