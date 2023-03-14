@@ -1,12 +1,15 @@
-import "./appBanner.scss";
-import avengers from "../../resources/img/Avengers.png";
-import avengersLogo from "../../resources/img/Avengers_logo.png";
+import { memo } from "react";
 
-const AppBanner = () => {
+import avengers from "resources/img/Avengers.png";
+import avengersLogo from "resources/img/Avengers_logo.png";
+
+import s from "./appBanner.module.scss";
+
+const AppBanner = memo(() => {
 	return (
-		<div className='app__banner'>
+		<div className={s.root}>
 			<img src={avengers} alt='Avengers' />
-			<div className='app__banner-text'>
+			<div className={s.text}>
 				New comics every week!
 				<br />
 				Stay tuned!
@@ -14,6 +17,6 @@ const AppBanner = () => {
 			<img src={avengersLogo} alt='Avengers logo' />
 		</div>
 	);
-};
+});
 
-export default AppBanner;
+export { AppBanner };
