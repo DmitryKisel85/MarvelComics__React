@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react"; /* eslint-disable jsx-a11y/anchor-is-valid */
+import cx from "classnames";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
-import { useMarvelService } from "services/useMarvelService";
 
+import { useMarvelService } from "services/useMarvelService";
 import { imageNotFoundUrl } from "services/imageNotFoundUrl";
 
 import { ITransformedChar } from "types";
 
-import "./randomChar.scss";
-import mjolnir from "../../resources/img/mjolnir.png";
+import mjolnir from "resources/img/mjolnir.png";
+
+import s from "./randomChar.module.scss";
 
 const RandomChar = () => {
 	const [char, setChar] = useState<ITransformedChar | null>(null);
@@ -32,66 +34,53 @@ const RandomChar = () => {
 
 	const updateChar = () => {
 		clearError();
-		// выбираем рандомного персонажа из этого диапазона id
+
 		const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-		// получаем данные из api
 		getCharacter(id).then(onCharLoaded);
 	};
 
-	const errorMessage = error ? <ErrorMessage /> : null;
-	const spinner = loading ? <Spinner /> : null;
-	const content = !(loading || error || !char) ? <View char={char} /> : null;
+	if (!char) return null;
+	if (error) return <ErrorMessage />;
+	if (loading) return <Spinner />;
+
+	const { name, description, thumbnail, homepage, wiki } = char;
 
 	return (
-		<div className='randomchar'>
-			{errorMessage}
-			{spinner}
-			{content}
-			<div className='randomchar__static'>
-				<p className='randomchar__title'>
+		<div className={s.root}>
+			<div className={s.randomBlock}>
+				<img
+					src={thumbnail}
+					alt='Random character'
+					className={s.img}
+					style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
+				/>
+				<div className={s.info}>
+					<p className={s.name}>{name}</p>
+					<p className={s.descr}>{description}</p>
+					<div className={s.btns}>
+						<a href={homepage} className={cx(s.btn, s.btnMain)} target='_blank' rel='noreferrer'>
+							<div className={s.btnInner}>Homepage</div>
+						</a>
+						<a href={wiki} className={cx(s.btn, s.btnSecondary)} target='_blank' rel='noreferrer'>
+							<div className={s.btnInner}>Wiki</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div className={s.infoBlock}>
+				<p className={s.title}>
 					Random character for today!
 					<br />
 					Do you want to get to know him better?
 				</p>
-				<p className='randomchar__title'>Or choose another one</p>
-				<button className='button button__main' onClick={updateChar}>
-					<div className='inner'>try it</div>
+				<p className={s.title}>Or choose another one</p>
+				<button className={cx(s.btn, s.btnMain)} onClick={updateChar}>
+					<div className={s.btnInner}>try it</div>
 				</button>
-				<img src={mjolnir} alt='mjolnir' className='randomchar__decoration' />
+				<img src={mjolnir} alt='mjolnir' className={s.decorImg} />
 			</div>
 		</div>
 	);
 };
 
-interface ViewProps {
-	char: ITransformedChar;
-}
-
-const View = ({ char }: ViewProps) => {
-	const { name, description, thumbnail, homepage, wiki } = char;
-
-	return (
-		<div className='randomchar__block'>
-			<img
-				src={thumbnail}
-				alt='Random character'
-				className='randomchar__img'
-				style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
-			/>
-			<div className='randomchar__info'>
-				<p className='randomchar__name'>{name}</p>
-				<p className='randomchar__descr'>{description}</p>
-				<div className='randomchar__btns'>
-					<a href={homepage} className='button button__main'>
-						<div className='inner'>Homepage</div>
-					</a>
-					<a href={wiki} className='button button__secondary'>
-						<div className='inner'>Wiki</div>
-					</a>
-				</div>
-			</div>
-		</div>
-	);
-};
-
-export default RandomChar;
+export { RandomChar };

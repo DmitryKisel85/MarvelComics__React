@@ -28,7 +28,8 @@
 			"@hooks/*": ["hooks/*"],
 			"@types/*": ["types/*"],
 			"@assets/*": ["assets/*"],
-			"@constants/*": ["constants/*"]
+			"@constant/*": ["constant/*"],
+			"@resources/*": ["resources/*"]
 		}
 	},
 	"include": ["src", "src/types/index/.ts"],
