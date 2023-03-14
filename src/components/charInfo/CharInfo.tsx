@@ -5,8 +5,8 @@ import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 import { Skeleton } from "components/skeleton";
 
-import { imageNotFoundUrl } from "services/imageNotFoundUrl";
-import { useMarvelService } from "services/useMarvelService";
+import { IMGNOTFND } from "constant";
+import { useMarvelService } from "hooks/useMarvelService";
 
 import type { ITransformedChar } from "types";
 
@@ -41,11 +41,7 @@ const CharInfo = ({ charId }: CharInfoProps) => {
 	return (
 		<div className={s.root}>
 			<div className={s.container}>
-				<img
-					src={thumbnail}
-					alt={name}
-					style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
-				/>
+				<img src={thumbnail} alt={name} style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }} />
 				<div>
 					<div className={s.head}>{name}</div>
 					<div className={s.btns}>

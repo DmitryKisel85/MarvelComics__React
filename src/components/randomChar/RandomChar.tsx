@@ -4,10 +4,11 @@ import cx from "classnames";
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 
-import { useMarvelService } from "services/useMarvelService";
-import { imageNotFoundUrl } from "services/imageNotFoundUrl";
+import { useMarvelService } from "hooks/useMarvelService";
 
-import { ITransformedChar } from "types";
+import { IMGNOTFND } from "constant";
+
+import type { ITransformedChar } from "types";
 
 import mjolnir from "resources/img/mjolnir.png";
 
@@ -52,7 +53,7 @@ const RandomChar = () => {
 					src={thumbnail}
 					alt='Random character'
 					className={s.img}
-					style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
+					style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }}
 				/>
 				<div className={s.info}>
 					<p className={s.name}>{name}</p>

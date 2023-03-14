@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 import cx from "classnames";
 
-import { useMarvelService } from "services/useMarvelService";
+import { useMarvelService } from "hooks/useMarvelService";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";

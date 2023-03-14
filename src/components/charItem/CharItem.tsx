@@ -1,6 +1,6 @@
 import cx from "classnames";
 
-import { imageNotFoundUrl } from "services/imageNotFoundUrl";
+import { IMGNOTFND } from "constant";
 
 import { ITransformedChar } from "types";
 
@@ -15,11 +15,7 @@ interface ICharItemProps {
 const CharItem = ({ char: { name, thumbnail }, isActive, onClick }: ICharItemProps) => {
 	return (
 		<li className={cx(s.root, isActive && s.active)} tabIndex={0} onClick={onClick}>
-			<img
-				src={thumbnail}
-				alt={name}
-				style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
-			/>
+			<img src={thumbnail} alt={name} style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }} />
 			<div className={s.text}>{name}</div>
 		</li>
 	);

@@ -6,6 +6,8 @@ import { lazyImport } from "services/lazyImport";
 import { AppHeader } from "components/appHeader";
 import { Spinner } from "components/spinner";
 
+import s from "./app.module.scss";
+
 const { Page404 } = lazyImport(() => import("components/pages/page404"), "Page404");
 const { MainPage } = lazyImport(() => import("components/pages/mainPage"), "MainPage");
 const { ComicsPage } = lazyImport(() => import("components/pages/comicsPage"), "ComicsPage");
@@ -14,7 +16,7 @@ const { SingleComicPage } = lazyImport(() => import("components/pages/singleComi
 const App = () => {
 	return (
 		<Router>
-			<div className='app'>
+			<div className={s.root}>
 				<AppHeader />
 				<main>
 					<Suspense fallback={<Spinner />}>

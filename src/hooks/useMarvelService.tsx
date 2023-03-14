@@ -1,4 +1,4 @@
-import { useHttp } from "../hooks/http.hook";
+import { useHttp } from "./http.hook";
 
 import { Char, Comics, ITransformedChar, ITransformedComic, CharListType, ComicsListType } from "types";
 
