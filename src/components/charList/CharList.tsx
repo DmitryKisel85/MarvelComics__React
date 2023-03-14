@@ -27,11 +27,11 @@ const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 	const { loading, error, getAllCharacters } = useMarvelService();
 
 	useEffect(() => {
-		loadMoreChars(offset, true);
+		onRequest(offset, true);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-	const loadMoreChars = (offset: number, initial?: boolean) => {
+	const onRequest = (offset: number, initial?: boolean) => {
 		initial ? setIsLoading(false) : setIsLoading(true);
 		getAllCharacters(offset).then(onCharListLoaded);
 	};
@@ -49,7 +49,7 @@ const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 	};
 
 	const handleCharClick = (id: number) => onCharSelected(id);
-	const handleBtnClick = (offset: number) => loadMoreChars(offset);
+	const handleBtnClick = (offset: number) => onRequest(offset);
 
 	if (error) return <ErrorMessage />;
 	if (loading && !isLoading) return <Spinner />;

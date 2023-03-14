@@ -1,19 +1,23 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+
+import cx from "classnames";
+
 import { useMarvelService } from "services/useMarvelService";
+
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
+import { ComicsItem } from "components/comicsItem";
 
-import { ComicsListType } from "types/generalTypes";
+import type { ComicsListType } from "types";
 
-import "./comicsList.scss";
+import s from "./comicsList.module.scss";
 
 const ComicsList = () => {
 	const [comicsList, setComicsList] = useState<ComicsListType | []>([]);
-	const [newItemLoading, setnewItemLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [offset, setOffset] = useState(0);
-	const [comicsEnded, setComicsEnded] = useState(false);
+	const [comicsListEnded, setComicsListEnded] = useState(false);
 
 	const { loading, error, getAllComics } = useMarvelService();
 
@@ -24,7 +28,7 @@ const ComicsList = () => {
 
 	// загрузка дополнительного списка комиксов по запросу
 	const onRequest = (offset: number, initial?: boolean) => {
-		initial ? setnewItemLoading(false) : setnewItemLoading(true);
+		initial ? setIsLoading(false) : setIsLoading(true);
 		getAllComics(offset).then(onComicsListLoaded);
 	};
 
@@ -35,46 +39,31 @@ const ComicsList = () => {
 			ended = true;
 		}
 		setComicsList([...comicsList, ...newComicsList]);
-		setnewItemLoading(false);
+		setIsLoading(false);
 		setOffset(offset + 8);
-		setComicsEnded(ended);
+		setComicsListEnded(ended);
 	};
 
-	function renderItems(arr: ComicsListType) {
-		const items = arr.map(({ id, thumbnail, title, price }, i) => {
-			return (
-				<li className='comics__item' key={i}>
-					<Link to={`/comics/${id}`}>
-						<img src={thumbnail} alt={title} className='comics__item-img' />
-						<div className='comics__item-name'>{title}</div>
-						<div className='comics__item-price'>{price}</div>
-					</Link>
-				</li>
-			);
-		});
-
-		return <ul className='comics__grid'>{items}</ul>;
-	}
-
-	const items = renderItems(comicsList);
-
-	const errorMessage = error ? <ErrorMessage /> : null;
-	const spinner = loading && !newItemLoading ? <Spinner /> : null;
+	if (error) return <ErrorMessage />;
+	if (loading && !isLoading) return <Spinner />;
 
 	return (
-		<div className='comics__list'>
-			{errorMessage}
-			{spinner}
-			{items}
-			<button
-				disabled={newItemLoading}
-				style={{ display: comicsEnded ? "none" : "block" }}
-				className='button button__main button__long'
-				onClick={() => onRequest(offset)}>
-				<div className='inner'>load more</div>
-			</button>
+		<div className={s.root}>
+			<ul className={s.list}>
+				{comicsList.map((comic) => {
+					return <ComicsItem key={comic.id} comic={comic} />;
+				})}
+			</ul>
+			{!comicsListEnded && (
+				<button
+					disabled={isLoading}
+					className={cx(s.btn, s.btnMain, s.btnLong)}
+					onClick={() => onRequest(offset)}>
+					<div className={s.btnInner}>load more</div>
+				</button>
+			)}
 		</div>
 	);
 };
 
-export default ComicsList;
+export { ComicsList };

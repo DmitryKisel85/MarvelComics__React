@@ -5,7 +5,7 @@ import { useMarvelService } from "services/useMarvelService";
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 
-import { TransformedComic } from "types/generalTypes";
+import { ITransformedComic } from "types";
 
 import "./singleComicPage.scss";
 
@@ -13,7 +13,7 @@ const SingleComicPage = () => {
 	const { comicId } = useParams();
 	console.log(comicId, typeof comicId);
 
-	const [comic, setComic] = useState<TransformedComic | null>(null);
+	const [comic, setComic] = useState<ITransformedComic | null>(null);
 
 	const { loading, error, getComic, clearError } = useMarvelService();
 
@@ -31,7 +31,7 @@ const SingleComicPage = () => {
 	};
 
 	// функция загрузки данных о комиксе в стейт
-	const onComicLoaded = (comic: TransformedComic) => {
+	const onComicLoaded = (comic: ITransformedComic) => {
 		setComic(comic);
 	};
 
@@ -49,7 +49,7 @@ const SingleComicPage = () => {
 };
 
 interface ViewProps {
-	comic: TransformedComic;
+	comic: ITransformedComic;
 }
 
 const View = ({ comic }: ViewProps) => {

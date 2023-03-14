@@ -4,10 +4,10 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { AppHeader } from "components/appHeader";
 import { Spinner } from "components/spinner";
 
-const Page404 = lazy(() => import("../pages/404"));
-const MainPage = lazy(() => import("../pages/MainPage"));
-const ComicsPage = lazy(() => import("../pages/ComicsPage"));
-const SingleComicPage = lazy(() => import("../pages/SingleComicPage"));
+const Page404 = lazy(() => import("components/pages/404"));
+const MainPage = lazy(() => import("components/pages/MainPage"));
+const ComicsPage = lazy(() => import("components/pages/ComicsPage"));
+const SingleComicPage = lazy(() => import("components/pages/SingleComicPage"));
 
 const App = () => {
 	return (
@@ -29,4 +29,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export { App };

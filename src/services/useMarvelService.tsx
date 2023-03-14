@@ -1,6 +1,6 @@
 import { useHttp } from "../hooks/http.hook";
 
-import { Char, Comics, ITransformedChar, TransformedComic, CharListType } from "types";
+import { Char, Comics, ITransformedChar, ITransformedComic, CharListType, ComicsListType } from "types";
 
 // функция запроса к api и получения нужных персонажей/комиксов
 const useMarvelService = () => {
@@ -20,12 +20,12 @@ const useMarvelService = () => {
 		return _transformCharacter(res.data.results[0]);
 	};
 
-	const getAllComics = async (offset = 0): Promise<TransformedComic[]> => {
+	const getAllComics = async (offset = 0): Promise<ComicsListType> => {
 		const res = await request(`${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${offset}&${_apiKey}`);
 		return res.data.results.map(_transformComics);
 	};
 
-	const getComic = async (id: string): Promise<TransformedComic> => {
+	const getComic = async (id: string): Promise<ITransformedComic> => {
 		const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
 		return _transformComics(res.data.results[0]);
 	};
@@ -46,7 +46,7 @@ const useMarvelService = () => {
 	};
 
 	// редактирование полученной информации из api и приведение её в нужный вид
-	const _transformComics = (comics: Comics): TransformedComic => {
+	const _transformComics = (comics: Comics): ITransformedComic => {
 		return {
 			id: comics.id,
 			title: comics.title,

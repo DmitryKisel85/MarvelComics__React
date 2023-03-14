@@ -47,7 +47,7 @@ export interface ITransformedChar {
 	comics: ComicItems[];
 }
 
-export interface TransformedComic {
+export interface ITransformedComic {
 	id: number;
 	title: string;
 	description: string;
@@ -57,5 +57,5 @@ export interface TransformedComic {
 	price: string;
 }
 
-export type ComicsListType = TransformedComic[];
+export type ComicsListType = ITransformedComic[];
 export type CharListType = ITransformedChar[];

@@ -1,0 +1,12 @@
+@import "style/button.scss";
+
+.root {
+	margin-top: 45px;
+}
+
+.list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 225px);
+	justify-content: space-between;
+	row-gap: 55px;
+}
