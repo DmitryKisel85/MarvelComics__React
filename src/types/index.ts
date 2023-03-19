@@ -1,1 +1,2 @@
-export * from "./generalTypes";
+export * from "types/generalTypes";
+export * from "types/apiMarvelTypes";

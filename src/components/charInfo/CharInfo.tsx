@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import cx from "classnames";
 
 import { Spinner } from "components/spinner";
@@ -8,8 +8,6 @@ import { Skeleton } from "components/skeleton";
 import { IMGNOTFND } from "constant";
 import { useMarvelService } from "hooks/useMarvelService";
 
-import type { ITransformedChar } from "types";
-
 import s from "./charInfo.module.scss";
 
 interface CharInfoProps {
@@ -17,62 +15,65 @@ interface CharInfoProps {
 }
 
 const CharInfo = ({ charId }: CharInfoProps) => {
-	const [char, setChar] = useState<ITransformedChar | null>(null);
+	const { getChar } = useMarvelService();
 
-	const { loading, error, getCharacter, clearError } = useMarvelService();
+	console.log({ charId });
 
-	const onCharLoaded = (char: ITransformedChar) => {
-		setChar(char);
-	};
+	const { data, isFetching, isLoading, error, isSuccess } = useQuery(["char", charId], () => getChar(charId), {
+		enabled: !!charId,
+		keepPreviousData: true,
+		refetchOnWindowFocus: false,
+	});
 
-	useEffect(() => {
-		if (!charId) return;
-		clearError();
-		getCharacter(charId).then(onCharLoaded);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [charId]);
+	if (!charId) return <Skeleton />;
+	if (error || !data) return <ErrorMessage />;
+	if (isLoading || isFetching) return <Spinner />;
 
-	if (!char) return <Skeleton />;
-	if (error) return <ErrorMessage />;
-	if (loading) return <Spinner />;
-
-	const { name, description, thumbnail, homepage, wiki, comics } = char;
+	const { name, description, thumbnail, homepage, wiki, comics } = data;
 
 	return (
-		<div className={s.root}>
-			<div className={s.container}>
-				<img src={thumbnail} alt={name} style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }} />
-				<div>
-					<div className={s.head}>{name}</div>
-					<div className={s.btns}>
-						<a href={homepage} className={cx(s.btn, s.btnMain)} target='_blank' rel='noreferrer'>
-							<div className={s.btnInner}>homepage</div>
-						</a>
-						<a href={wiki} className={cx(s.btn, s.btnSecondary)} target='_blank' rel='noreferrer'>
-							<div className={s.btnInner}>Wiki</div>
-						</a>
+		<>
+			{isSuccess && (
+				<div className={s.root}>
+					<div className={s.container}>
+						<img
+							src={thumbnail}
+							alt={name}
+							style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }}
+						/>
+						<div>
+							<div className={s.head}>{name}</div>
+							<div className={s.btns}>
+								<a href={homepage} className={cx(s.btn, s.btnMain)} target='_blank' rel='noreferrer'>
+									<div className={s.btnInner}>homepage</div>
+								</a>
+								<a href={wiki} className={cx(s.btn, s.btnSecondary)} target='_blank' rel='noreferrer'>
+									<div className={s.btnInner}>Wiki</div>
+								</a>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<div className={s.text}>{description}</div>
-			<p className={s.box}>Comics:</p>
-			<ul className={s.list}>
-				{comics.length === 0 ? (
-					<li className={s.item}>No comics for this character</li>
-				) : (
-					comics.map(({ name }, i) => {
-						// eslint-disable-next-line array-callback-return
-						if (i > 9) return;
+					<div className={s.text}>{description}</div>
+					<p className={s.box}>Comics:</p>
+					<ul className={s.list}>
+						{comics.length === 0 ? (
+							<li className={s.item}>No comics for this character</li>
+						) : (
+							comics.map(({ name }, i) => {
+								// eslint-disable-next-line array-callback-return
+								if (i > 9) return;
 
-						return (
-							<li key={name} className={s.item}>
-								{name}
-							</li>
-						);
-					})
-				)}
-			</ul>
-		</div>
+								return (
+									<li key={name} className={s.item}>
+										{name}
+									</li>
+								);
+							})
+						)}
+					</ul>
+				</div>
+			)}
+		</>
 	);
 };
 

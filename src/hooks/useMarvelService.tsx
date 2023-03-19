@@ -1,8 +1,17 @@
 import { useHttp } from "./http.hook";
 
-import { Char, Comics, ITransformedChar, ITransformedComic, CharListType, ComicsListType } from "types";
+import {
+	Char,
+	Comics,
+	ITransformedChar,
+	ITransformedComic,
+	CharListType,
+	ComicsListType,
+	ITransformedCharData,
+	CharResponseType,
+	CharDataType,
+} from "types";
 
-// функция запроса к api и получения нужных персонажей/комиксов
 const useMarvelService = () => {
 	const { loading, request, error, clearError } = useHttp();
 
@@ -10,14 +19,24 @@ const useMarvelService = () => {
 	const _apiKey = "apikey=aa0bc64c6fe58d8e64b31bec28af3b39";
 	const _baseOffset = 210;
 
-	const getAllCharacters = async (offset = _baseOffset): Promise<CharListType> => {
-		const res = await request(`${_apiBase}characters?limit=9&offset=${offset}&${_apiKey}`);
-		return res.data.results.map(_transformCharacter);
+	const getAllChars = async ({ pageParam = _baseOffset }) => {
+		const res = await fetch(`${_apiBase}characters?limit=9&offset=${pageParam}&${_apiKey}`);
+		const { data }: { data: CharDataType } = await res.json();
+
+		if (!data) throw new Error("No data!");
+
+		return transformCharData(data);
 	};
 
-	const getCharacter = async (id: number): Promise<ITransformedChar> => {
-		const res = await request(`${_apiBase}characters/${id}?${_apiKey}`);
-		return _transformCharacter(res.data.results[0]);
+	const getChar = async (id: number | null) => {
+		if (!id) return;
+
+		const res = await fetch(`${_apiBase}characters/${id}?${_apiKey}`);
+		const { data }: { data: CharDataType } = await res.json();
+
+		if (!data) throw new Error("No data!");
+
+		return transformChar(data.results[0]);
 	};
 
 	const getAllComics = async (offset = 0): Promise<ComicsListType> => {
@@ -30,8 +49,7 @@ const useMarvelService = () => {
 		return _transformComics(res.data.results[0]);
 	};
 
-	// редактирование полученной информации из api и приведение её в нужный вид
-	const _transformCharacter = (char: Char): ITransformedChar => {
+	const transformChar = (char: Char): ITransformedChar => {
 		return {
 			id: char.id,
 			name: char.name,
@@ -58,7 +76,14 @@ const useMarvelService = () => {
 		};
 	};
 
-	return { loading, error, clearError, getAllCharacters, getCharacter, getAllComics, getComic };
+	const transformCharData = (data: CharDataType): ITransformedCharData => {
+		return {
+			offset: data.offset,
+			results: data.results.map((char: Char): ITransformedChar => transformChar(char)),
+		};
+	};
+
+	return { loading, error, clearError, getAllComics, getComic, getAllChars, getChar };
 };
 
 export { useMarvelService };

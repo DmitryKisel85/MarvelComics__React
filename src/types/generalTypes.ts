@@ -59,3 +59,8 @@ export interface ITransformedComic {
 
 export type ComicsListType = ITransformedComic[];
 export type CharListType = ITransformedChar[];
+
+export interface ITransformedCharData {
+	offset: number;
+	results: ITransformedChar[];
+}

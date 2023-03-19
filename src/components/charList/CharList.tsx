@@ -1,16 +1,11 @@
-import { useState } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import cx from "classnames";
-import { useQuery } from "@tanstack/react-query";
 
 import { useMarvelService } from "hooks/useMarvelService";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 import { CharItem } from "components/charItem";
-
-import { API_OFFSET } from "constant";
-
-import type { CharListType } from "types";
 
 import s from "./charList.module.scss";
 
@@ -20,53 +15,49 @@ interface CharlistProps {
 }
 
 const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
-	const [offset, setOffset] = useState(API_OFFSET);
-	const [charListEnded, setCharListEnded] = useState(false);
+	const { getAllChars } = useMarvelService();
 
-	const { loading, error, getAllCharacters } = useMarvelService();
-
-	const { data, refetch, isLoading, isSuccess } = useQuery({
-		queryFn: () => getAllCharacters(offset).then(onCharListLoaded),
-		queryKey: ["char"],
-	});
-
-	const onCharListLoaded = (result: CharListType) => {
-		let ended = false;
-		if (result.length < 9) {
-			ended = true;
+	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error } = useInfiniteQuery(
+		["chars"],
+		getAllChars,
+		{
+			getNextPageParam: (lastPage) => lastPage.offset + 9,
 		}
-		setOffset((offset) => offset + 9);
-		setCharListEnded(ended);
-
-		return result;
-	};
+	);
 
 	const handleCharClick = (id: number) => onCharSelected(id);
-	// const handleBtnClick = (offset: number) => onRequest(offset);
-	const handleBtnClick = () => refetch();
+	const handleLoadMoreBtnClick = () => fetchNextPage();
 
 	if (error) return <ErrorMessage />;
-	if (loading && !isLoading) return <Spinner />;
+	if (isLoading) return <Spinner />;
 
 	return (
-		<div>
-			<ul className={s.list}>
-				{isSuccess &&
-					data.map((char) => (
-						<CharItem
-							key={char.id}
-							char={char}
-							isActive={char.id === selectedChar}
-							onClick={() => handleCharClick(char.id)}
-						/>
-					))}
-			</ul>
-			{!charListEnded && (
-				<button className={cx(s.btn, s.btnMain, s.btnLong)} disabled={isLoading} onClick={handleBtnClick}>
-					<div className={s.btnInner}>load more</div>
-				</button>
+		<>
+			{data && (
+				<div>
+					<ul className={s.list}>
+						{data.pages.map((page) =>
+							page.results.map((char) => (
+								<CharItem
+									key={char.id}
+									char={char}
+									isActive={char.id === selectedChar}
+									onClick={() => handleCharClick(char.id)}
+								/>
+							))
+						)}
+					</ul>
+					{hasNextPage && (
+						<button
+							className={cx(s.btn, s.btnMain, s.btnLong)}
+							disabled={isFetchingNextPage}
+							onClick={handleLoadMoreBtnClick}>
+							<div className={s.btnInner}>load more</div>
+						</button>
+					)}
+				</div>
 			)}
-		</div>
+		</>
 	);
 };
 
