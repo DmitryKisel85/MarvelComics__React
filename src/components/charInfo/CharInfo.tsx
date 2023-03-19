@@ -17,8 +17,6 @@ interface CharInfoProps {
 const CharInfo = ({ charId }: CharInfoProps) => {
 	const { getChar } = useMarvelService();
 
-	console.log({ charId });
-
 	const { data, isFetching, isLoading, error, isSuccess } = useQuery(["char", charId], () => getChar(charId), {
 		enabled: !!charId,
 		keepPreviousData: true,

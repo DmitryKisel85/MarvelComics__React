@@ -1,0 +1,39 @@
+@import "style/variables.scss";
+@import "style/button.scss";
+
+.root {
+	padding: 40px 35px;
+	display: grid;
+	grid-template-columns: 180px auto;
+	column-gap: 30px;
+}
+
+.img {
+	width: 180px;
+	height: 180px;
+	object-fit: cover;
+}
+
+.box {
+	display: grid;
+	grid-template-rows: minmax(29px, auto) 90px 38px;
+	row-gap: 10px;
+	padding-top: 3px;
+}
+
+.name {
+	font-weight: bold;
+	font-size: 22px;
+	line-height: 29px;
+	text-transform: uppercase;
+}
+.descr {
+	font-size: 14px;
+	line-height: 18px;
+}
+
+.btns {
+	a:nth-child(1) {
+		margin-right: 30px;
+	}
+}
