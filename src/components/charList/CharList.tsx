@@ -17,7 +17,7 @@ interface CharlistProps {
 const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 	const { getAllChars } = useMarvelService();
 
-	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error } = useInfiniteQuery(
+	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error, isSuccess } = useInfiniteQuery(
 		["chars"],
 		getAllChars,
 		{
@@ -33,7 +33,7 @@ const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 
 	return (
 		<>
-			{data && (
+			{isSuccess && data && (
 				<div>
 					<ul className={s.list}>
 						{data.pages.map((page) =>

@@ -1,59 +1,48 @@
 import { useParams, Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import { useMarvelService } from "hooks/useMarvelService";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 
-import { ITransformedComic } from "types";
-
 import s from "./singleComicPage.module.scss";
 
 const SingleComicPage = () => {
 	const { comicId } = useParams();
-	const [comic, setComic] = useState<ITransformedComic | null>(null);
 
-	const { loading, error, getComic, clearError } = useMarvelService();
+	const { getComic } = useMarvelService();
 
-	useEffect(() => {
-		updateComic();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [comicId]);
+	const { data, isFetching, isLoading, error, isSuccess } = useQuery(["comic", comicId], () => getComic(comicId!), {
+		enabled: !!comicId,
+		keepPreviousData: true,
+		refetchOnWindowFocus: false,
+	});
 
-	// запрос на сервер и получение нового комикса
-	const updateComic = () => {
-		clearError();
-		if (comicId) {
-			getComic(comicId).then(onComicLoaded);
-		}
-	};
+	if (!comicId) return null;
+	if (error || !data) return <ErrorMessage />;
+	if (isLoading || isFetching) return <Spinner />;
 
-	// функция загрузки данных о комиксе в стейт
-	const onComicLoaded = (comic: ITransformedComic) => {
-		setComic(comic);
-	};
-
-	if (!comic) return null;
-	if (error) return <ErrorMessage />;
-	if (loading) return <Spinner />;
-
-	const { title, description, pageCount, thumbnail, language, price } = comic;
+	const { title, description, pageCount, thumbnail, language, price } = data;
 
 	return (
-		<div className={s.root}>
-			<img src={thumbnail} alt={title} className={s.img} />
-			<div className={s.box}>
-				<h2 className={s.title}>{title}</h2>
-				<p className={s.text}>{description}</p>
-				<p className={s.text}>{pageCount}</p>
-				<p className={s.text}>Language: {language}</p>
-				<div className={s.priceText}>{price}</div>
-			</div>
-			<Link to='/comics' className={s.link}>
-				Back to all
-			</Link>
-		</div>
+		<>
+			{isSuccess && (
+				<div className={s.root}>
+					<img src={thumbnail} alt={title} className={s.img} />
+					<div className={s.box}>
+						<h2 className={s.title}>{title}</h2>
+						<p className={s.text}>{description}</p>
+						<p className={s.text}>{pageCount}</p>
+						<p className={s.text}>Language: {language}</p>
+						<div className={s.priceText}>{price}</div>
+					</div>
+					<Link to='/comics' className={s.link}>
+						Back to all
+					</Link>
+				</div>
+			)}
+		</>
 	);
 };
 

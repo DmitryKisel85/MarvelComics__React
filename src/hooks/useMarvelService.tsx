@@ -1,29 +1,25 @@
-import { useHttp } from "./http.hook";
-
 import {
-	Char,
-	Comics,
 	ITransformedChar,
 	ITransformedComic,
-	CharListType,
-	ComicsListType,
 	ITransformedCharData,
-	CharResponseType,
+	ITransformedComicData,
+	CharFromApiType,
+	ComicFromApiType,
 	CharDataType,
+	ComicDataType,
 } from "types";
 
 const useMarvelService = () => {
-	const { loading, request, error, clearError } = useHttp();
-
 	const _apiBase = "https://gateway.marvel.com:443/v1/public/";
 	const _apiKey = "apikey=aa0bc64c6fe58d8e64b31bec28af3b39";
 	const _baseOffset = 210;
 
 	const getAllChars = async ({ pageParam = _baseOffset }) => {
 		const res = await fetch(`${_apiBase}characters?limit=9&offset=${pageParam}&${_apiKey}`);
-		const { data }: { data: CharDataType } = await res.json();
 
-		if (!data) throw new Error("No data!");
+		if (!res.ok) throw new Error("No data!");
+
+		const { data }: { data: CharDataType } = await res.json();
 
 		return transformCharData(data);
 	};
@@ -32,24 +28,37 @@ const useMarvelService = () => {
 		if (!id) return;
 
 		const res = await fetch(`${_apiBase}characters/${id}?${_apiKey}`);
-		const { data }: { data: CharDataType } = await res.json();
 
-		if (!data) throw new Error("No data!");
+		if (!res.ok) throw new Error("No data!");
+
+		const { data }: { data: CharDataType } = await res.json();
 
 		return transformChar(data.results[0]);
 	};
 
-	const getAllComics = async (offset = 0): Promise<ComicsListType> => {
-		const res = await request(`${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${offset}&${_apiKey}`);
-		return res.data.results.map(_transformComics);
+	const getAllComics = async ({ pageParam = 0 }) => {
+		const res = await fetch(`${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${pageParam}&${_apiKey}`);
+
+		if (!res.ok) throw new Error("No data!");
+
+		const { data }: { data: ComicDataType } = await res.json();
+
+		return transformComicData(data);
 	};
 
-	const getComic = async (id: string): Promise<ITransformedComic> => {
-		const res = await request(`${_apiBase}comics/${id}?${_apiKey}`);
-		return _transformComics(res.data.results[0]);
+	const getComic = async (id: string) => {
+		const res = await fetch(`${_apiBase}comics/${id}?${_apiKey}`);
+
+		if (!res.ok) throw new Error("No data!");
+
+		const { data }: { data: ComicDataType } = await res.json();
+
+		console.log(data);
+
+		return transformComics(data.results[0]);
 	};
 
-	const transformChar = (char: Char): ITransformedChar => {
+	const transformChar = (char: CharFromApiType): ITransformedChar => {
 		return {
 			id: char.id,
 			name: char.name,
@@ -63,27 +72,33 @@ const useMarvelService = () => {
 		};
 	};
 
-	// редактирование полученной информации из api и приведение её в нужный вид
-	const _transformComics = (comics: Comics): ITransformedComic => {
+	const transformComics = (comics: ComicFromApiType): ITransformedComic => {
 		return {
 			id: comics.id,
 			title: comics.title,
 			description: comics.description || "There is no description",
 			pageCount: comics.pageCount ? `${comics.pageCount} p.` : "No information about the number of pages",
 			thumbnail: comics.thumbnail.path + "." + comics.thumbnail.extension,
-			language: comics.textObjects.language || "en-us",
-			price: comics.prices.price ? `${comics.prices.price}$` : "not available",
+			language: comics.textObjects[0].language || "en-us",
+			price: comics.prices[0].price ? `${comics.prices[0].price}$` : "not available",
 		};
 	};
 
 	const transformCharData = (data: CharDataType): ITransformedCharData => {
 		return {
 			offset: data.offset,
-			results: data.results.map((char: Char): ITransformedChar => transformChar(char)),
+			results: data.results.map((char: CharFromApiType): ITransformedChar => transformChar(char)),
 		};
 	};
 
-	return { loading, error, clearError, getAllComics, getComic, getAllChars, getChar };
+	const transformComicData = (data: ComicDataType): ITransformedComicData => {
+		return {
+			offset: data.offset,
+			results: data.results.map((comic: ComicFromApiType): ITransformedComic => transformComics(comic as any)),
+		};
+	};
+
+	return { getAllComics, getComic, getAllChars, getChar };
 };
 
 export { useMarvelService };
