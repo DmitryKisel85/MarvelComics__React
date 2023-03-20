@@ -94,7 +94,7 @@ const useMarvelService = () => {
 	const transformComicData = (data: ComicDataType): ITransformedComicData => {
 		return {
 			offset: data.offset,
-			results: data.results.map((comic: ComicFromApiType): ITransformedComic => transformComics(comic as any)),
+			results: data.results.map((comic: ComicFromApiType): ITransformedComic => transformComics(comic)),
 		};
 	};
 
