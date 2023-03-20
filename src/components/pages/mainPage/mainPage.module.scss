@@ -1,14 +1,16 @@
-.box {
-	margin-top: 50px;
+@use "style/mixins" as *;
+
+.root {
+	margin-top: remsize(50);
 	display: grid;
-	grid-template-columns: 650px 425px;
-	column-gap: 25px;
+	grid-template-columns: remsize(650) remsize(425);
+	column-gap: remsize(25);
 	align-items: start;
 }
 
 .bgImage {
 	position: absolute;
-	right: -174px;
-	bottom: -70px;
+	right: remsize(-174);
+	bottom: remsize(-70);
 	z-index: -1;
 }

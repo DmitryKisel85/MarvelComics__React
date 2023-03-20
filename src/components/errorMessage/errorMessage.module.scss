@@ -1,7 +1,7 @@
-.error-message {
+.root {
 	display: block;
-	width: 250px;
-	height: 250px;
+	width: remsize(250);
+	height: remsize(250);
 	object-fit: contain;
 	margin: 0 auto;
 }

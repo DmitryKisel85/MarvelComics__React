@@ -1,30 +1,31 @@
-@import "style/variables.scss";
+@use "style/mixins" as *;
+@use "style/variables" as *;
 
 .root {
-	width: 200px;
-	height: 318px;
+	width: remsize(200);
+	height: remsize(318);
 	background-color: $dark;
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-	padding: 15px;
+	box-shadow: remsize(5) remsize(5) remsize(10) rgba(0, 0, 0, 0.25);
+	padding: remsize(15);
 	cursor: pointer;
 	transition: 0.3s transform;
 	img {
-		width: 200px;
-		height: 200px;
+		width: remsize(200);
+		height: remsize(200);
 		object-fit: cover;
-		transform: translate(-15px, -15px);
+		transform: translate(remsize(-15), remsize(-15));
 	}
 }
 
 .text {
 	font-weight: bold;
-	font-size: 22px;
-	line-height: 29px;
+	font-size: remsize(22);
+	line-height: remsize(29);
 	text-transform: uppercase;
-	color: #fff;
+	color: $white;
 }
 
 .active {
-	box-shadow: 0 5px 20px $main-color;
-	transform: translateY(-8px);
+	box-shadow: 0 remsize(5) remsize(20) $main-color;
+	transform: translateY(remsize(-8));
 }

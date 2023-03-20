@@ -1,3 +1,5 @@
+@use "style/mixins" as *;
+
 .root {
 	display: flex;
 	flex-direction: column;
@@ -7,14 +9,14 @@
 
 .text {
 	text-align: center;
-	font-size: 24px;
-	margin-bottom: 24px;
+	font-size: remsize(24);
+	margin-bottom: remsize(24);
 }
 
 .link {
 	display: block;
 	text-align: center;
-	font-size: 24px;
+	font-size: remsize(24);
 	font-weight: bold;
 	text-decoration: underline;
 }

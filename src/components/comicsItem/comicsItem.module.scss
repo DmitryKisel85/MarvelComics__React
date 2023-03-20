@@ -1,26 +1,28 @@
+@use "style/mixins" as *;
+
 .root {
 	transition: 0.3s transform;
 
 	&:hover {
-		transform: translateY(-5px);
+		transform: translateY(remsize(-5));
 	}
 }
 .img {
-	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.25);
-	width: 225px;
-	height: 345px;
+	box-shadow: remsize(5) remsize(5) remsize(10) rgba(0, 0, 0, 0.25);
+	width: remsize(225);
+	height: remsize(345);
 }
 .title {
-	margin-top: 10px;
+	margin-top: remsize(10);
 	font-weight: bold;
-	font-size: 14px;
-	line-height: 18px;
+	font-size: remsize(14);
+	line-height: remsize(18);
 }
 .text {
-	margin-top: 5px;
+	margin-top: remsize(5);
 	font-weight: bold;
-	font-size: 14px;
-	line-height: 18px;
+	font-size: remsize(14);
+	line-height: remsize(18);
 	color: rgba(0, 0, 0, 0.6);
 	text-transform: uppercase;
 }

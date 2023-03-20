@@ -20,7 +20,7 @@ const MainPage = () => {
 			<ErrorBoundary>
 				<RandomChar />
 			</ErrorBoundary>
-			<div className={s.box}>
+			<div className={s.root}>
 				<ErrorBoundary>
 					<CharList onCharSelected={onCharSelected} selectedChar={selectedChar} />
 				</ErrorBoundary>

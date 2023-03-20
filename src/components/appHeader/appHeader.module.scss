@@ -1,4 +1,5 @@
-@import "style/variables.scss";
+@use "style/mixins" as *;
+@use "style/variables" as *;
 
 .root {
 	display: flex;
@@ -7,8 +8,8 @@
 
 .title {
 	font-weight: bold;
-	font-size: 28px;
-	line-height: 37px;
+	font-size: remsize(28);
+	line-height: remsize(37);
 	span {
 		color: $main-color;
 	}
@@ -19,10 +20,10 @@
 		display: flex;
 		justify-content: space-between;
 		font-weight: bold;
-		font-size: 24px;
-		line-height: 32px;
+		font-size: remsize(24);
+		line-height: remsize(32);
 		li {
-			margin: 0 8px;
+			margin: 0 remsize(8);
 			a:hover {
 				color: $main-color;
 			}

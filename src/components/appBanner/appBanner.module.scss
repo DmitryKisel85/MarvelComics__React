@@ -1,19 +1,20 @@
-@import "style/variables.scss";
+@use "style/mixins" as *;
+@use "style/variables" as *;
 
 .root {
 	width: 100%;
 	background-color: $dark;
-	height: 100px;
-	padding: 0 25px 0 45px;
+	height: remsize(100);
+	padding: 0 remsize(25) 0 remsize(45);
 	display: grid;
-	grid-template-columns: 152px auto 133px;
+	grid-template-columns: remsize(152) auto remsize(132);
 }
 
 .text {
 	font-weight: bold;
-	font-size: 24px;
-	line-height: 32px;
-	color: #ffffff;
-	padding-left: 83px;
-	padding-top: 18px;
+	font-size: remsize(24);
+	line-height: remsize(32);
+	color: $white;
+	padding-left: remsize(83);
+	padding-top: remsize(18);
 }

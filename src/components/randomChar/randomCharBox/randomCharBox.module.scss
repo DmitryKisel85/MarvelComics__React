@@ -1,39 +1,40 @@
-@import "style/variables.scss";
-@import "style/button.scss";
+@use "style/variables" as *;
+@use "style/button" as *;
+@use "style/mixins" as *;
 
 .root {
-	padding: 40px 35px;
+	padding: remsize(40) remsize(35);
 	display: grid;
-	grid-template-columns: 180px auto;
-	column-gap: 30px;
+	grid-template-columns: remsize(180) auto;
+	column-gap: remsize(30);
 }
 
 .img {
-	width: 180px;
-	height: 180px;
+	width: remsize(180);
+	height: remsize(180);
 	object-fit: cover;
 }
 
 .box {
 	display: grid;
-	grid-template-rows: minmax(29px, auto) 90px 38px;
-	row-gap: 10px;
-	padding-top: 3px;
+	grid-template-rows: minmax(remsize(29), auto) remsize(90) remsize(38);
+	row-gap: remsize(10);
+	padding-top: remsize(3);
 }
 
 .name {
 	font-weight: bold;
-	font-size: 22px;
-	line-height: 29px;
+	font-size: remsize(22);
+	line-height: remsize(29);
 	text-transform: uppercase;
 }
 .descr {
-	font-size: 14px;
-	line-height: 18px;
+	font-size: remsize(14);
+	line-height: remsize(18);
 }
 
 .btns {
 	a:nth-child(1) {
-		margin-right: 30px;
+		margin-right: remsize(30);
 	}
 }
