@@ -1,3 +1,5 @@
+@use "style/mixins" as *;
+
 .root {
 	display: block;
 	width: remsize(250);

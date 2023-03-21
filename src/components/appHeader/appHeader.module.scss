@@ -1,9 +1,15 @@
 @use "style/mixins" as *;
 @use "style/variables" as *;
+@use "style/media" as *;
 
 .root {
 	display: flex;
 	justify-content: space-between;
+
+	@include mobile {
+		flex-direction: column;
+		text-align: center;
+	}
 }
 
 .title {
@@ -12,6 +18,10 @@
 	line-height: remsize(37);
 	span {
 		color: $main-color;
+	}
+
+	@include mobile {
+		margin-bottom: remsize(15);
 	}
 }
 
@@ -27,6 +37,10 @@
 			a:hover {
 				color: $main-color;
 			}
+		}
+
+		@include mobile {
+			justify-content: center;
 		}
 	}
 }

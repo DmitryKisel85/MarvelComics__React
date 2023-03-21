@@ -1,6 +1,7 @@
 @use "style/variables" as *;
 @use "style/button" as *;
 @use "style/mixins" as *;
+@use "style/media" as *;
 
 .root {
 	padding: remsize(40) remsize(35);
@@ -8,6 +9,10 @@
 	position: relative;
 	button {
 		margin-top: remsize(13);
+	}
+
+	@include mobile {
+		padding: remsize(25) remsize(10);
 	}
 }
 
@@ -26,4 +31,8 @@
 	position: absolute;
 	bottom: remsize(14);
 	right: remsize(-37);
+
+	@include mobile {
+		right: remsize(-23);
+	}
 }

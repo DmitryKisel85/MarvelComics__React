@@ -1,11 +1,16 @@
 @use "style/mixins" as *;
 @use "style/variables" as *;
+@use "style/media" as *;
 
 .root {
 	font-weight: bold;
 	font-size: remsize(18);
 	line-height: remsize(24);
 	text-align: center;
+
+	@include mobile {
+		margin-top: remsize(25);
+	}
 }
 
 .container {

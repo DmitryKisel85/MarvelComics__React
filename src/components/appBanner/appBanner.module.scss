@@ -1,5 +1,6 @@
 @use "style/mixins" as *;
 @use "style/variables" as *;
+@use "style/media" as *;
 
 .root {
 	width: 100%;
@@ -8,6 +9,13 @@
 	padding: 0 remsize(25) 0 remsize(45);
 	display: grid;
 	grid-template-columns: remsize(152) auto remsize(132);
+
+	@include mobile {
+		grid-template-columns: 1fr 3fr 1fr;
+		align-items: center;
+		justify-items: center;
+		padding: 0;
+	}
 }
 
 .text {
@@ -17,4 +25,10 @@
 	color: $white;
 	padding-left: remsize(83);
 	padding-top: remsize(18);
+
+	@include mobile {
+		padding: 0;
+		text-align: center;
+		font-size: remsize(20);
+	}
 }

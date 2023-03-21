@@ -41,7 +41,7 @@ const CharInfo = ({ charId }: CharInfoProps) => {
 								alt={name}
 								style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }}
 							/>
-							<div>
+							<div className={s.innerContainer}>
 								<div className={s.head}>{name}</div>
 								<div className={s.btns}>
 									<a
@@ -62,7 +62,7 @@ const CharInfo = ({ charId }: CharInfoProps) => {
 							</div>
 						</div>
 						<div className={s.text}>{description}</div>
-						<p className={s.box}>Comics:</p>
+						<p className={s.title}>Comics:</p>
 						<ul className={s.list}>
 							{comics.length === 0 ? (
 								<li className={s.item}>No comics for this character</li>

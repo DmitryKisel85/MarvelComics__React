@@ -1,8 +1,13 @@
 @use "style/mixins" as *;
+@use "style/media" as *;
 
 .root {
 	display: grid;
-	grid-template-columns: repeat(2, 50%);
+	grid-template-columns: repeat(2, 1fr);
 	align-items: center;
 	box-shadow: remsize(5) remsize(5) remsize(20) rgba(0, 0, 0, 0.25);
+
+	@include mobile {
+		grid-template-columns: 1fr;
+	}
 }

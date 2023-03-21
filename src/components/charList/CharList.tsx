@@ -34,7 +34,7 @@ const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 	return (
 		<>
 			{isSuccess && data && (
-				<div>
+				<div className={s.root}>
 					<ul className={s.list}>
 						{data.pages.map((page) =>
 							page.results.map((char) => (
