@@ -13,6 +13,7 @@ const useMarvelService = () => {
 	const _apiBase = "https://gateway.marvel.com:443/v1/public/";
 	const _apiKey = "apikey=aa0bc64c6fe58d8e64b31bec28af3b39";
 	const _baseOffset = 210;
+	const _comicsLimit = 8;
 
 	const getAllChars = async ({ pageParam = _baseOffset }) => {
 		const res = await fetch(`${_apiBase}characters?limit=9&offset=${pageParam}&${_apiKey}`);
@@ -37,7 +38,9 @@ const useMarvelService = () => {
 	};
 
 	const getAllComics = async ({ pageParam = 0 }) => {
-		const res = await fetch(`${_apiBase}comics?orderBy=issueNumber&limit=8&offset=${pageParam}&${_apiKey}`);
+		const res = await fetch(
+			`${_apiBase}comics?orderBy=issueNumber&limit=${_comicsLimit}&offset=${pageParam}&${_apiKey}`
+		);
 
 		if (!res.ok) throw new Error("No data!");
 
@@ -52,8 +55,6 @@ const useMarvelService = () => {
 		if (!res.ok) throw new Error("No data!");
 
 		const { data }: { data: ComicDataType } = await res.json();
-
-		console.log(data);
 
 		return transformComics(data.results[0]);
 	};
@@ -79,8 +80,8 @@ const useMarvelService = () => {
 			description: comics.description || "There is no description",
 			pageCount: comics.pageCount ? `${comics.pageCount} p.` : "No information about the number of pages",
 			thumbnail: comics.thumbnail.path + "." + comics.thumbnail.extension,
-			language: comics.textObjects[0].language || "en-us",
-			price: comics.prices[0].price ? `${comics.prices[0].price}$` : "not available",
+			language: comics.textObjects[0]?.language || "en-us",
+			price: comics.prices[0]?.price ? `${comics.prices[0].price}$` : "not available",
 		};
 	};
 

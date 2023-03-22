@@ -3,7 +3,7 @@
 
 .root {
 	display: flex;
-	// justify-content: center;
+	justify-content: center;
 	align-items: center;
 	max-width: remsize(1140);
 	margin: 0 auto;
@@ -13,6 +13,10 @@
 	@include mobile {
 		padding: remsize(50) remsize(5);
 	}
+}
+
+.container {
+	width: 100%;
 }
 
 .main {

@@ -8,13 +8,13 @@ import s from "./appBanner.module.scss";
 const AppBanner = memo(() => {
 	return (
 		<div className={s.root}>
-			<img src={avengers} alt='Avengers' />
+			<img src={avengers} className={s.img} alt='Avengers' />
 			<div className={s.text}>
 				New comics every week!
 				<br />
 				Stay tuned!
 			</div>
-			<img src={avengersLogo} alt='Avengers logo' />
+			<img src={avengersLogo} className={s.logo} alt='Avengers logo' />
 		</div>
 	);
 });

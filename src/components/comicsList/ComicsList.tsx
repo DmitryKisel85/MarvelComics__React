@@ -37,7 +37,7 @@ const ComicsList = () => {
 					{hasNextPage && (
 						<button
 							disabled={isFetchingNextPage}
-							className={cx(s.btn, s.btnMain, s.btnLong)}
+							className={cx(s.btn, s.btnMain, s.btnLong, s.btnLoadMore)}
 							onClick={handleLoadMoreBtnClick}>
 							<div className={s.btnInner}>load more</div>
 						</button>

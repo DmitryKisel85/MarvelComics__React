@@ -9,7 +9,7 @@
 	align-items: start;
 
 	@include tablet {
-		grid-template-columns: 1.5fr 1fr;
+		grid-template-columns: 1.75fr 1fr;
 	}
 
 	@include mobile {
@@ -22,12 +22,23 @@
 
 .bgImage {
 	position: absolute;
-	right: remsize(-174);
+	right: remsize(-45);
 	bottom: remsize(-70);
+	width: remsize(467);
+	height: remsize(372);
 	z-index: -1;
+
+	@include tablet {
+		right: remsize(-45);
+		bottom: remsize(-70);
+		width: remsize(367);
+		height: remsize(277);
+	}
 
 	@include mobile {
 		position: static;
-		margin-top: remsize(25);
+		margin: remsize(25) auto 0;
+		width: remsize(267);
+		height: remsize(197);
 	}
 }

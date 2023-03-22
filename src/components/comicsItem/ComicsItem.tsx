@@ -13,6 +13,7 @@ const ComicsItem = ({ comic: { id, thumbnail, title, price } }: IComicsItemProps
 		<li className={s.root}>
 			<Link to={`/comics/${id}`}>
 				<img src={thumbnail} alt={title} className={s.img} />
+
 				<div className={s.title}>{title}</div>
 				<div className={s.text}>{price}</div>
 			</Link>

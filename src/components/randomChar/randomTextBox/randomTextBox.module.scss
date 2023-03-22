@@ -25,6 +25,12 @@
 	&:nth-child(2) {
 		margin-top: remsize(33);
 	}
+
+	@include mobile {
+		&:nth-child(2) {
+			margin-top: remsize(10);
+		}
+	}
 }
 
 .img {
@@ -34,5 +40,6 @@
 
 	@include mobile {
 		right: remsize(-23);
+		width: remsize(120);
 	}
 }

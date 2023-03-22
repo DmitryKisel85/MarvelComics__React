@@ -16,6 +16,15 @@
 		justify-items: center;
 		padding: 0;
 	}
+
+	@include mobileS {
+		grid-template-columns: 1fr 1fr;
+		grid-template-areas:
+			"img logo"
+			"text text";
+		height: 100%;
+		padding: remsize(10) 0;
+	}
 }
 
 .text {
@@ -30,5 +39,21 @@
 		padding: 0;
 		text-align: center;
 		font-size: remsize(20);
+	}
+
+	@include mobileS {
+		grid-area: text;
+	}
+}
+
+.img {
+	@include mobileS {
+		grid-area: img;
+	}
+}
+
+.logo {
+	@include mobileS {
+		grid-area: logo;
 	}
 }
