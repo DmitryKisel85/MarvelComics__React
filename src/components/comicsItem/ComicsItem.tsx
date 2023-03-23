@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 
+import { Image } from "components/common/image";
+
 import type { ITransformedComic } from "types";
 
 import s from "./comicsItem.module.scss";
@@ -12,8 +14,7 @@ const ComicsItem = ({ comic: { id, thumbnail, title, price } }: IComicsItemProps
 	return (
 		<li className={s.root}>
 			<Link to={`/comics/${id}`}>
-				<img src={thumbnail} alt={title} className={s.img} />
-
+				<Image src={thumbnail} className={s.img} altText={title} />
 				<div className={s.title}>{title}</div>
 				<div className={s.text}>{price}</div>
 			</Link>

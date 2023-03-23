@@ -3,12 +3,12 @@ import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 import { Skeleton } from "components/skeleton";
+import { Image } from "components/common/image";
+import { Button } from "components/common/button";
 
-import { IMGNOTFND } from "constant";
 import { useMarvelService } from "hooks/useMarvelService";
 
 import s from "./charInfo.module.scss";
-import { Button } from "components/button";
 
 interface CharInfoProps {
 	charId: number | null;
@@ -36,11 +36,7 @@ const CharInfo = ({ charId }: CharInfoProps) => {
 				{isSuccess && !isLoading && !isFetching && (
 					<>
 						<div className={s.container}>
-							<img
-								src={thumbnail}
-								alt={name}
-								style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }}
-							/>
+							<Image src={thumbnail} className={s.img} altText={name} />
 							<div className={s.innerContainer}>
 								<div className={s.head}>{name}</div>
 								<div className={s.btns}>

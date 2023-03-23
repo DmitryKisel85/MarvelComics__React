@@ -4,6 +4,7 @@ import { RandomChar } from "components/randomChar";
 import { CharList } from "components/charList";
 import { CharInfo } from "components/charInfo";
 import { ErrorBoundary } from "components/errorBoundary";
+import { Image } from "components/common/image";
 
 import decoration from "resources/img/vision.png";
 
@@ -28,7 +29,7 @@ const MainPage = () => {
 					<CharInfo charId={selectedChar} />
 				</ErrorBoundary>
 			</div>
-			<img className={s.bgImage} src={decoration} alt='vision' />
+			<Image src={decoration} className={s.bgImage} altText='vision' />
 		</>
 	);
 };

@@ -4,34 +4,34 @@
 @use "style/mixins" as *;
 
 .root {
-	padding: remsize(25);
-	box-shadow: 0 0 remsize(20) rgba(0, 0, 0, 0.25);
 	position: relative;
 	z-index: 5;
+	padding: remsize(25);
+	box-shadow: 0 0 remsize(20) rgba(0, 0, 0, 0.25);
 	background-color: $white;
 
 	@include mobile {
 		display: flex;
 		flex-direction: column;
-		gap: remsize(10);
 		padding: remsize(10);
+		gap: remsize(10);
+	}
+}
+
+.img {
+	width: remsize(175);
+	height: remsize(175);
+
+	@include mobile {
+		width: 100%;
+		height: 100%;
 	}
 }
 
 .container {
 	display: grid;
-	grid-template-columns: remsize(150) auto;
+	grid-template-columns: remsize(175) auto;
 	column-gap: remsize(25);
-	img {
-		width: remsize(150);
-		height: remsize(150);
-		object-fit: cover;
-
-		@include mobile {
-			width: 100%;
-			height: 100%;
-		}
-	}
 
 	@include mobile {
 		grid-template-columns: 1fr;
@@ -48,8 +48,8 @@
 }
 
 .head {
-	font-weight: bold;
 	font-size: remsize(22);
+	font-weight: bold;
 	line-height: remsize(29);
 	text-transform: uppercase;
 
@@ -69,8 +69,8 @@
 	}
 
 	@include mobile {
-		margin-top: 0;
 		display: flex;
+		margin-top: 0;
 		gap: remsize(10);
 	}
 }
@@ -82,10 +82,10 @@
 }
 
 .title {
-	font-weight: bold;
-	font-size: remsize(18);
-	line-height: remsize(24);
 	margin-top: remsize(10);
+	font-size: remsize(18);
+	font-weight: bold;
+	line-height: remsize(24);
 }
 
 .list {
@@ -95,21 +95,21 @@
 	@include mobile {
 		display: flex;
 		flex-direction: column;
-		gap: remsize(5);
 		margin-top: 0;
+		gap: remsize(5);
 	}
 }
 
 .item {
 	width: 100%;
-	padding: 0 remsize(10);
-	line-height: remsize(25);
-	box-shadow: 0 remsize(4) remsize(4) rgba(0, 0, 0, 0.25);
 	margin-top: remsize(10);
+	padding: 0 remsize(10);
+	box-shadow: 0 remsize(4) remsize(4) rgba(0, 0, 0, 0.25);
+	line-height: remsize(25);
 
 	@include mobile {
 		margin-top: 0;
-		font-size: remsize(14);
 		box-shadow: 0 remsize(1) remsize(1) rgba(0, 0, 0, 0.15);
+		font-size: remsize(14);
 	}
 }

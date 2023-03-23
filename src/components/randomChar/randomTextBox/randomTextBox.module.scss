@@ -38,6 +38,12 @@
 	bottom: remsize(14);
 	right: remsize(-37);
 
+	@include tablet {
+		right: remsize(-65);
+		bottom: remsize(1);
+		width: remsize(250);
+	}
+
 	@include mobile {
 		right: remsize(-23);
 		width: remsize(120);

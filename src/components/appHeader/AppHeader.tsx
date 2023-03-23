@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router-dom";
+import cx from "classnames";
 
 import s from "./appHeader.module.scss";
 
@@ -13,13 +14,13 @@ const AppHeader = () => {
 			<nav className={s.nav}>
 				<ul>
 					<li>
-						<NavLink end style={({ isActive }) => ({ color: isActive ? "#9f0013" : "inherit" })} to='/'>
+						<NavLink end className={({ isActive }) => (isActive ? cx({ [s.active]: true }) : "")} to='/'>
 							Characters
 						</NavLink>
 					</li>
 					/
 					<li>
-						<NavLink style={({ isActive }) => ({ color: isActive ? "#9f0013" : "inherit" })} to='/comics'>
+						<NavLink className={({ isActive }) => (isActive ? cx({ [s.active]: true }) : "")} to='/comics'>
 							Comics
 						</NavLink>
 					</li>

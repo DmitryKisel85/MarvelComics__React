@@ -1,4 +1,5 @@
-import { Button } from "components/button";
+import { Image } from "components/common/image";
+import { Button } from "components/common/button";
 
 import mjolnir from "resources/img/mjolnir.png";
 
@@ -20,7 +21,7 @@ const RandomTextBox = ({ onClick }: IRandomTextBoxProps) => {
 			<Button isMain onClick={onClick}>
 				try it
 			</Button>
-			<img src={mjolnir} alt='mjolnir' className={s.img} />
+			<Image src={mjolnir} altText='mjolnir' className={s.img} />
 		</div>
 	);
 };

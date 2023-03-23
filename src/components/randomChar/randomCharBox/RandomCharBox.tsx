@@ -1,8 +1,5 @@
-// import cx from "classnames";
-
-import { Button } from "components/button";
-
-import { IMGNOTFND } from "constant";
+import { Image } from "components/common/image";
+import { Button } from "components/common/button";
 
 import type { ITransformedChar } from "types";
 
@@ -17,12 +14,7 @@ const RandomCharBox = ({ char }: IRandomCharBoxProps) => {
 
 	return (
 		<div className={s.root}>
-			<img
-				src={thumbnail}
-				alt='Random character'
-				className={s.img}
-				style={{ objectFit: thumbnail === IMGNOTFND ? "contain" : "cover" }}
-			/>
+			<Image src={thumbnail} className={s.img} altText='Random character' />
 			<div className={s.box}>
 				<p className={s.name}>{name}</p>
 				<p className={s.descr}>{description}</p>

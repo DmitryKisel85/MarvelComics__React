@@ -5,7 +5,7 @@ import { useMarvelService } from "hooks/useMarvelService";
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 import { ComicsItem } from "components/comicsItem";
-import { Button } from "components/button";
+import { Button } from "components/common/button";
 
 import s from "./comicsList.module.scss";
 
