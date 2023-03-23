@@ -1,12 +1,9 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-
-import { useMarvelService } from "hooks/useMarvelService";
-import { useViewport } from "hooks/useViewport";
-
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 import { CharItem } from "components/charItem";
 import { Button } from "components/common/button";
+
+import { useGetCharsQuery } from "hooks/useQueries";
 
 import s from "./charList.module.scss";
 
@@ -16,16 +13,7 @@ interface CharlistProps {
 }
 
 const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
-	const { getAllChars } = useMarvelService();
-	const { isMobile } = useViewport();
-
-	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error, isSuccess } = useInfiniteQuery(
-		["chars"],
-		getAllChars,
-		{
-			getNextPageParam: (lastPage) => lastPage.offset + (isMobile ? 6 : 9),
-		}
-	);
+	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error, isSuccess } = useGetCharsQuery();
 
 	const handleCharClick = (id: number) => onCharSelected(id);
 	const handleLoadMoreBtnClick = () => fetchNextPage();

@@ -1,12 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 import { Skeleton } from "components/skeleton";
 import { Image } from "components/common/image";
 import { Button } from "components/common/button";
 
-import { useMarvelService } from "hooks/useMarvelService";
+import { useGetCharQuery } from "hooks/useQueries";
 
 import s from "./charInfo.module.scss";
 
@@ -15,13 +13,7 @@ interface CharInfoProps {
 }
 
 const CharInfo = ({ charId }: CharInfoProps) => {
-	const { getChar } = useMarvelService();
-
-	const { data, isFetching, isLoading, error, isSuccess } = useQuery(["char", charId], () => getChar(charId), {
-		enabled: !!charId,
-		keepPreviousData: true,
-		refetchOnWindowFocus: false,
-	});
+	const { data, isFetching, isLoading, error, isSuccess } = useGetCharQuery(charId);
 
 	if (!charId || !data) return <Skeleton />;
 

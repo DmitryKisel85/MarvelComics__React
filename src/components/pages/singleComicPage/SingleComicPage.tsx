@@ -1,7 +1,6 @@
 import { useParams, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 
-import { useMarvelService } from "hooks/useMarvelService";
+import { useGetComicQuery } from "hooks/useQueries";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
@@ -11,13 +10,7 @@ import s from "./singleComicPage.module.scss";
 const SingleComicPage = () => {
 	const { comicId } = useParams();
 
-	const { getComic } = useMarvelService();
-
-	const { data, isFetching, isLoading, error, isSuccess } = useQuery(["comic", comicId], () => getComic(comicId!), {
-		enabled: !!comicId,
-		keepPreviousData: true,
-		refetchOnWindowFocus: false,
-	});
+	const { data, isFetching, isLoading, error, isSuccess } = useGetComicQuery(comicId);
 
 	if (!comicId) return null;
 	if (error || !data) return <ErrorMessage />;
