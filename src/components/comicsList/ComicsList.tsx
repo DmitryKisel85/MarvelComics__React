@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useMarvelService } from "hooks/useMarvelService";
+import { useViewport } from "hooks/useViewport";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
@@ -11,12 +12,13 @@ import s from "./comicsList.module.scss";
 
 const ComicsList = () => {
 	const { getAllComics } = useMarvelService();
+	const { isMobile } = useViewport();
 
 	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error, isSuccess } = useInfiniteQuery(
 		["comics"],
 		getAllComics,
 		{
-			getNextPageParam: (lastPage) => lastPage.offset + 8,
+			getNextPageParam: (lastPage) => lastPage.offset + (isMobile ? 4 : 8),
 		}
 	);
 

@@ -1,3 +1,5 @@
+import { useViewport } from "hooks/useViewport";
+
 import {
 	ITransformedChar,
 	ITransformedComic,
@@ -10,13 +12,16 @@ import {
 } from "types";
 
 const useMarvelService = () => {
+	const { isMobile } = useViewport();
+
 	const _apiBase = "https://gateway.marvel.com:443/v1/public/";
 	const _apiKey = "apikey=aa0bc64c6fe58d8e64b31bec28af3b39";
 	const _baseOffset = 210;
-	const _comicsLimit = 8;
+	const _comicsLimit = isMobile ? 6 : 8;
+	const _charLimit = isMobile ? 6 : 9;
 
 	const getAllChars = async ({ pageParam = _baseOffset }) => {
-		const res = await fetch(`${_apiBase}characters?limit=9&offset=${pageParam}&${_apiKey}`);
+		const res = await fetch(`${_apiBase}characters?limit=${_charLimit}&offset=${pageParam}&${_apiKey}`);
 
 		if (!res.ok) throw new Error("No data!");
 

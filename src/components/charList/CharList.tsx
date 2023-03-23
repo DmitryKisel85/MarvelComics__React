@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useMarvelService } from "hooks/useMarvelService";
+import { useViewport } from "hooks/useViewport";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
@@ -16,12 +17,13 @@ interface CharlistProps {
 
 const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 	const { getAllChars } = useMarvelService();
+	const { isMobile } = useViewport();
 
 	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error, isSuccess } = useInfiniteQuery(
 		["chars"],
 		getAllChars,
 		{
-			getNextPageParam: (lastPage) => lastPage.offset + 9,
+			getNextPageParam: (lastPage) => lastPage.offset + (isMobile ? 6 : 9),
 		}
 	);
 
