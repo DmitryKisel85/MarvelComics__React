@@ -1,116 +1,51 @@
-import { useState, useEffect, useRef } from "react";
+import { Spinner } from "components/spinner";
+import { ErrorMessage } from "components/errorMessage";
+import { CharItem } from "components/charItem";
+import { Button } from "components/common/button";
 
-import useMarvelService from "../../services/MarvelService";
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
+import { useGetCharsQuery } from "hooks/useQueries";
 
-import { imageNotFoundUrl } from "services/imageNotFoundUrl";
-import { Charlist } from "types/generalTypes";
-
-import "./charList.scss";
+import s from "./charList.module.scss";
 
 interface CharlistProps {
-    onCharSelected: (id: number) => void;
+	onCharSelected: (id: number) => void;
+	selectedChar: number | null;
 }
 
-const CharList = (props: CharlistProps) => {
-    const [charList, setCharList] = useState<Charlist | []>([]);
-    const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(210);
-    const [charEnded, setCharEnded] = useState(false);
+const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
+	const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage, error, isSuccess } = useGetCharsQuery();
 
-    const { loading, error, getAllCharacters } = useMarvelService();
+	const handleCharClick = (id: number) => onCharSelected(id);
+	const handleLoadMoreBtnClick = () => fetchNextPage();
 
-    useEffect(() => {
-        onRequest(offset, true);
+	if (error) return <ErrorMessage />;
+	if (isLoading) return <Spinner />;
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    //  функция запроса дополнительных элементов для листа персонажей
-    const onRequest = (offset: number, initial?: boolean) => {
-        initial ? setNewItemLoading(false) : setNewItemLoading(true);
-        getAllCharacters(offset).then(onCharListLoaded);
-    };
-
-    // загрузка данных листа персонажей в стейт и изменение статуса загрузки
-    const onCharListLoaded = (newCharList: Charlist) => {
-        let ended = false;
-        if (newCharList.length < 9) {
-            ended = true;
-        }
-
-        setCharList((charList) => [...charList, ...newCharList]);
-        setNewItemLoading(false);
-        setOffset((offset) => offset + 9);
-        setCharEnded(ended);
-    };
-
-    // добавление стилей при клике на персонажа
-    const itemRefs = useRef<HTMLLIElement[]>([]);
-    const focusOnItem = (id: number) => {
-        itemRefs.current.forEach((item) => item.classList.remove("char__item_selected"));
-        itemRefs.current[id].classList.add("char__item_selected");
-        itemRefs.current[id].focus();
-    };
-
-    function renderItems(arr: Charlist) {
-        const items = arr.map(({ id, thumbnail, name }, i) => {
-            return (
-                <li
-                    className="char__item"
-                    key={id}
-                    onClick={() => {
-                        props.onCharSelected(id);
-                        focusOnItem(i);
-                    }}
-                    onKeyPress={(e) => {
-                        if (e.key === " " || e.key === "Enter") {
-                            props.onCharSelected(id);
-                            focusOnItem(i);
-                        }
-                    }}
-                    tabIndex={0}
-                    ref={(elem: HTMLLIElement) => {
-                        if (itemRefs.current !== null) {
-                            itemRefs.current[i] = elem;
-                            return itemRefs.current[i];
-                        }
-                    }}
-                >
-                    <img
-                        src={thumbnail}
-                        alt={name}
-                        style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
-                    />
-                    <div className="char__name">{name}</div>
-                </li>
-            );
-        });
-
-        return <ul className="char__grid">{items}</ul>;
-    }
-
-    const charListGrid = renderItems(charList);
-
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading && !newItemLoading ? <Spinner /> : null;
-
-    return (
-        <div className="char__list">
-            {errorMessage}
-            {spinner}
-            {charListGrid}
-            <button
-                className="button button__main button__long"
-                disabled={newItemLoading}
-                onClick={() => onRequest(offset)}
-                style={{ display: charEnded ? "none" : "block" }}
-            >
-                <div className="inner">load more</div>
-            </button>
-        </div>
-    );
+	return (
+		<>
+			{isSuccess && data && (
+				<div className={s.root}>
+					<ul className={s.list}>
+						{data.pages.map((page) =>
+							page.results.map((char) => (
+								<CharItem
+									key={char.id}
+									char={char}
+									isActive={char.id === selectedChar}
+									onClick={() => handleCharClick(char.id)}
+								/>
+							))
+						)}
+					</ul>
+					{hasNextPage && (
+						<Button isMain isLong disabled={isFetchingNextPage} onClick={handleLoadMoreBtnClick}>
+							load more
+						</Button>
+					)}
+				</div>
+			)}
+		</>
+	);
 };
 
-export default CharList;
+export { CharList };

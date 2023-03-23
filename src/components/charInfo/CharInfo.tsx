@@ -1,106 +1,69 @@
-import { useState, useEffect } from "react";
+import { Spinner } from "components/spinner";
+import { ErrorMessage } from "components/errorMessage";
+import { Skeleton } from "components/skeleton";
+import { Image } from "components/common/image";
+import { Button } from "components/common/button";
 
-import useMarvelService from "../../services/MarvelService";
-import Spinner from "../spinner/Spinner";
-import ErrorMessage from "../errorMessage/ErrorMessage";
-import Skeleton from "../skeleton/Skeleton";
+import { useGetCharQuery } from "hooks/useQueries";
 
-import { imageNotFoundUrl } from "services/imageNotFoundUrl";
-
-import { TransformedChar } from "types/generalTypes";
-
-import "./charInfo.scss";
+import s from "./charInfo.module.scss";
 
 interface CharInfoProps {
-    charId: number | null;
+	charId: number | null;
 }
 
 const CharInfo = ({ charId }: CharInfoProps) => {
-    const [char, setChar] = useState<TransformedChar | null>(null);
+	const { data, isFetching, isLoading, error, isSuccess } = useGetCharQuery(charId);
 
-    const { loading, error, getCharacter, clearError } = useMarvelService();
+	if (!charId || !data) return <Skeleton />;
 
-    useEffect(() => {
-        updateChar();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [charId]);
+	const { name, description, thumbnail, homepage, wiki, comics } = data;
 
-    // запрос на сервер и получение нового персонажа
-    const updateChar = () => {
-        if (!charId) return;
-        clearError();
-        getCharacter(charId).then(onCharLoaded);
-    };
+	return (
+		<div className={s.root}>
+			<>
+				{error && <ErrorMessage />}
+				{(isLoading || isFetching) && <Spinner />}
 
-    // функция загрузки данных о персонаже в стейт
-    const onCharLoaded = (char: TransformedChar) => {
-        setChar(char);
-    };
+				{isSuccess && !isLoading && !isFetching && (
+					<>
+						<div className={s.container}>
+							<Image src={thumbnail} className={s.img} altText={name} />
+							<div className={s.innerContainer}>
+								<div className={s.head}>{name}</div>
+								<div className={s.btns}>
+									<Button isMain href={homepage}>
+										homepage
+									</Button>
+									<Button isSecondary href={wiki}>
+										wiki
+									</Button>
+								</div>
+							</div>
+						</div>
+						<div className={s.text}>{description}</div>
+						<p className={s.title}>Comics:</p>
+						<ul className={s.list}>
+							{comics.length === 0 ? (
+								<li className={s.item}>No comics for this character</li>
+							) : (
+								comics.map(({ name }, i) => {
+									// eslint-disable-next-line array-callback-return
+									if (i > 9) return;
 
-    const skeleton = char || loading || error ? null : <Skeleton />;
-    const errorMessage = error ? <ErrorMessage /> : null;
-    const spinner = loading ? <Spinner /> : null;
-    const content = !(loading || error || !char) ? <View char={char} /> : null;
-
-    return (
-        <div className="char__info">
-            {skeleton}
-            {errorMessage}
-            {spinner}
-            {content}
-        </div>
-    );
+									return (
+										<li key={name} className={s.item}>
+											{name}
+										</li>
+									);
+								})
+							)}
+						</ul>
+					</>
+				)}
+			</>
+		</div>
+	);
 };
 
-interface ViewProps {
-    char: TransformedChar;
-}
-
-const View = ({ char }: ViewProps) => {
-    const { name, description, thumbnail, homepage, wiki, comics } = char;
-
-    return (
-        <>
-            <div className="char__basics">
-                <img
-                    src={thumbnail}
-                    alt={name}
-                    style={{ objectFit: thumbnail === imageNotFoundUrl ? "contain" : "cover" }}
-                />
-                <div>
-                    <div className="char__info-name">{name}</div>
-                    <div className="char__btns">
-                        <a href={homepage} className="button button__main">
-                            <div className="inner">homepage</div>
-                        </a>
-                        <a href={wiki} className="button button__secondary">
-                            <div className="inner">Wiki</div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div className="char__descr">{description}</div>
-            <div className="char__comics">Comics:</div>
-            <ul className="char__comics-list">
-                {comics.length === 0 ? (
-                    <li className="char__comics-item">No comics for this character</li>
-                ) : (
-                    comics.map((comic, i) => {
-                        // ограничение на вывод кол-ва комиксов
-                        // eslint-disable-next-line array-callback-return
-                        if (i > 9) return;
-
-                        return (
-                            <li key={i} className="char__comics-item">
-                                {comic.name}
-                            </li>
-                        );
-                    })
-                )}
-            </ul>
-        </>
-    );
-};
-
-
-export default CharInfo;
+export { CharInfo };

@@ -1,20 +1,22 @@
-import './skeleton.scss';
+import cx from "classnames";
+
+import s from "./skeleton.module.scss";
 
 const Skeleton = () => {
-    return (
-        <>
-            <p className="char__select">Please select a character to see information</p>
-            <div className="skeleton">
-                <div className="pulse skeleton__header">
-                    <div className="pulse skeleton__circle"></div>
-                    <div className="pulse skeleton__mini"></div>
-                </div>
-                <div className="pulse skeleton__block"></div>
-                <div className="pulse skeleton__block"></div>
-                <div className="pulse skeleton__block"></div>
-            </div>
-        </>
-    )
-}
+	return (
+		<div className={s.root}>
+			<p>Please select a character to see information</p>
+			<div className={s.container}>
+				<div className={s.header}>
+					<div className={cx(s.pulse, s.circle)}></div>
+					<div className={cx(s.pulse, s.mini)}></div>
+				</div>
+				<div className={cx(s.pulse, s.block)}></div>
+				<div className={cx(s.pulse, s.block)}></div>
+				<div className={cx(s.pulse, s.block)}></div>
+			</div>
+		</div>
+	);
+};
 
-export default Skeleton;
+export { Skeleton };

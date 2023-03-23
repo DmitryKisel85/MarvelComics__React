@@ -1,0 +1,44 @@
+@use "style/mixins" as *;
+@use "style/media" as *;
+
+.root {
+	margin-top: remsize(50);
+	display: grid;
+	grid-template-columns: remsize(650) remsize(425);
+	column-gap: remsize(25);
+	align-items: start;
+
+	@include tablet {
+		grid-template-columns: 1.75fr 1fr;
+	}
+
+	@include mobile {
+		margin-top: remsize(25);
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+	}
+}
+
+.bgImage {
+	position: absolute;
+	right: remsize(-45);
+	bottom: remsize(-70);
+	width: remsize(467);
+	height: remsize(372);
+	z-index: -1;
+
+	@include tablet {
+		right: remsize(-45);
+		bottom: remsize(-70);
+		width: remsize(367);
+		height: remsize(277);
+	}
+
+	@include mobile {
+		position: static;
+		margin: remsize(25) auto 0;
+		width: remsize(267);
+		height: remsize(197);
+	}
+}

@@ -1,0 +1,46 @@
+@use "sass:math";
+
+@mixin rImage($fit: cover) {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+	height: 100%;
+
+	object-fit: $fit;
+}
+
+@function clampSize($min, $max) {
+	@return max(#{$min}px, (#{$max} / var(--gfs)) * 1rem);
+}
+
+@function maxVw($min, $max) {
+	@return max(#{$min}px, #{$max});
+}
+
+@function remsize($pixels) {
+	@return calc((#{$pixels} / var(--gfs)) * 1rem);
+}
+
+@function get-real-vh($vh) {
+	@return calc(var(--vh, 1vh) * #{$vh});
+}
+
+@function vhSize($px, $sizeDesign) {
+	@return get-real-vh(math.div($px, $sizeDesign) * 100);
+}
+
+@mixin hover {
+	@media (hover: hover) {
+		&:hover {
+			@content;
+		}
+	}
+
+	@media (hover: none) {
+		&:active {
+			@content;
+		}
+	}
+}

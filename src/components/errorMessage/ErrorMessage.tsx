@@ -1,9 +1,7 @@
-import img from "./error.gif";
+import img from "resources/error.gif";
 
-import "./errorMessage.scss";
+import s from "./errorMessage.module.scss";
 
-const ErrorMessage = () => {
-	return <img className='error-message' src={img} alt='error' />;
-};
+const ErrorMessage = () => <img className={s.root} src={img} alt='error' />;
 
-export default ErrorMessage;
+export { ErrorMessage };

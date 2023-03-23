@@ -1,0 +1,58 @@
+@use "style/mixins" as *;
+@use "style/variables" as *;
+@use "style/media" as *;
+
+.root {
+	width: remsize(200);
+	height: remsize(318);
+	background-color: $dark;
+	box-shadow: remsize(5) remsize(5) remsize(10) rgba(0, 0, 0, 0.25);
+	padding: remsize(15);
+	cursor: pointer;
+	transition: 0.3s transform;
+
+	img {
+		width: remsize(200);
+		height: remsize(200);
+		object-fit: cover;
+		transform: translate(remsize(-15), remsize(-15));
+
+		@include tablet {
+			width: 100%;
+			transform: translate(0, 0);
+		}
+	}
+
+	@include tablet {
+		width: 100%;
+		height: 100%;
+		padding: remsize(15) remsize(10);
+	}
+}
+
+.text {
+	font-weight: bold;
+	font-size: remsize(22);
+	line-height: remsize(29);
+	text-transform: uppercase;
+	color: $white;
+
+	@include tablet {
+		margin-top: remsize(10);
+		text-align: center;
+	}
+
+	@include mobile {
+		font-size: remsize(20);
+	}
+}
+
+.active {
+	box-shadow: 0 remsize(5) remsize(20) $main-color;
+	transform: translateY(remsize(-8));
+
+	@include mobile {
+		box-shadow: none;
+		transform: scale(1.05);
+	}
+}

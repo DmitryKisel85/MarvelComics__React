@@ -1,0 +1,30 @@
+@use "style/mixins" as *;
+@use "style/media" as *;
+
+.root {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: remsize(1140);
+	margin: 0 auto;
+	padding: remsize(50) 0;
+	position: relative;
+
+	@include mobile {
+		padding: remsize(50) remsize(5);
+	}
+}
+
+.container {
+	width: 100%;
+}
+
+.main {
+	margin-top: remsize(50);
+
+	@include mobile {
+		display: flex;
+		flex-direction: column;
+		margin-top: remsize(25);
+	}
+}

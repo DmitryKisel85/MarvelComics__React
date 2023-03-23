@@ -1,0 +1,32 @@
+@use "style/mixins" as *;
+@use "style/button" as *;
+@use "style/media" as *;
+
+.root {
+	margin-top: remsize(45);
+
+	@include mobile {
+		margin-top: remsize(25);
+	}
+}
+
+.list {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	justify-items: center;
+	align-items: stretch;
+
+	column-gap: remsize(15);
+	row-gap: remsize(55);
+
+	@include mobile {
+		grid-template-columns: 1fr 1fr;
+		column-gap: remsize(10);
+		row-gap: remsize(20);
+	}
+
+	@include mobileS {
+		grid-template-columns: 1fr;
+		row-gap: remsize(30);
+	}
+}

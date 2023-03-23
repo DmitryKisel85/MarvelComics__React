@@ -1,0 +1,60 @@
+@use "style/mixins" as *;
+@use "style/variables" as *;
+@use "style/media" as *;
+
+.root {
+	font-weight: bold;
+	font-size: remsize(18);
+	line-height: remsize(24);
+	text-align: center;
+
+	@include mobile {
+		margin-top: remsize(25);
+	}
+}
+
+.container {
+	margin-top: remsize(30);
+}
+
+.header {
+	display: grid;
+	grid-template-columns: remsize(40) auto;
+	column-gap: remsize(10);
+	align-items: center;
+}
+
+.circle {
+	width: remsize(40);
+	height: remsize(40);
+	background-color: $light-grey;
+	border-radius: 100%;
+}
+
+.mini {
+	width: 100%;
+	height: remsize(16);
+	background-color: $light-grey;
+}
+
+.block {
+	height: remsize(35);
+	width: 100%;
+	background-color: $light-grey;
+	margin-top: remsize(15);
+}
+.pulse {
+	animation: pulse 1.5s ease-in-out 0.5s infinite;
+}
+
+@keyframes pulse {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.4;
+	}
+	100% {
+		opacity: 1;
+	}
+}

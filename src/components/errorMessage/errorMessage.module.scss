@@ -1,0 +1,9 @@
+@use "style/mixins" as *;
+
+.root {
+	display: block;
+	width: remsize(250);
+	height: remsize(250);
+	object-fit: contain;
+	margin: 0 auto;
+}

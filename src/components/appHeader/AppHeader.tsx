@@ -1,25 +1,26 @@
 import { Link, NavLink } from "react-router-dom";
+import cx from "classnames";
 
-import "./appHeader.scss";
+import s from "./appHeader.module.scss";
 
 const AppHeader = () => {
 	return (
-		<header className='app__header'>
-			<h1 className='app__title'>
+		<header className={s.root}>
+			<h1 className={s.title}>
 				<Link to='/'>
 					<span>Marvel</span> information portal
 				</Link>
 			</h1>
-			<nav className='app__menu'>
+			<nav className={s.nav}>
 				<ul>
 					<li>
-						<NavLink end style={({ isActive }) => ({ color: isActive ? "#9f0013" : "inherit" })} to='/'>
+						<NavLink end className={({ isActive }) => (isActive ? cx({ [s.active]: true }) : "")} to='/'>
 							Characters
 						</NavLink>
 					</li>
 					/
 					<li>
-						<NavLink style={({ isActive }) => ({ color: isActive ? "#9f0013" : "inherit" })} to='/comics'>
+						<NavLink className={({ isActive }) => (isActive ? cx({ [s.active]: true }) : "")} to='/comics'>
 							Comics
 						</NavLink>
 					</li>
@@ -29,4 +30,4 @@ const AppHeader = () => {
 	);
 };
 
-export default AppHeader;
+export { AppHeader };

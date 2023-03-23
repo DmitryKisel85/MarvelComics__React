@@ -1,0 +1,41 @@
+@use "style/mixins" as *;
+@use "style/variables" as *;
+
+.root {
+	margin-top: remsize(50);
+	display: grid;
+	grid-template-columns: remsize(293) remsize(550) auto;
+	column-gap: remsize(50);
+	align-items: start;
+}
+
+.img {
+	width: remsize(293);
+	height: remsize(450);
+}
+.title {
+	font-weight: bold;
+	font-size: remsize(22);
+	line-height: remsize(29);
+}
+.text {
+	font-size: remsize(18);
+	line-height: remsize(24);
+	margin-top: remsize(25);
+}
+.priceText {
+	font-weight: bold;
+	font-size: remsize(24);
+	line-height: remsize(32);
+	color: $main-color;
+	margin-top: remsize(25);
+}
+.link {
+	justify-self: end;
+	font-weight: bold;
+	font-size: remsize(18);
+	line-height: remsize(24);
+	&:hover {
+		color: $main-color;
+	}
+}

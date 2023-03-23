@@ -1,0 +1,22 @@
+@use "style/mixins" as *;
+
+.root {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.text {
+	text-align: center;
+	font-size: remsize(24);
+	margin-bottom: remsize(24);
+}
+
+.link {
+	display: block;
+	text-align: center;
+	font-size: remsize(24);
+	font-weight: bold;
+	text-decoration: underline;
+}

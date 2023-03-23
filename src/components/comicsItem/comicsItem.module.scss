@@ -1,0 +1,42 @@
+@use "style/mixins" as *;
+@use "style/media" as *;
+
+.root {
+	transition: 0.3s transform;
+
+	&:hover {
+		transform: translateY(remsize(-5));
+	}
+
+	@include mobile {
+		width: 100%;
+	}
+}
+.img {
+	box-shadow: remsize(5) remsize(5) remsize(10) rgba(0, 0, 0, 0.25);
+	width: remsize(245);
+	height: remsize(345);
+	@include mobile {
+		width: remsize(170);
+		height: remsize(245);
+	}
+
+	@include mobileS {
+		width: 100%;
+		height: 100%;
+	}
+}
+.title {
+	margin-top: remsize(10);
+	font-weight: bold;
+	font-size: remsize(14);
+	line-height: remsize(18);
+}
+.text {
+	margin-top: remsize(5);
+	font-weight: bold;
+	font-size: remsize(14);
+	line-height: remsize(18);
+	color: rgba(0, 0, 0, 0.6);
+	text-transform: uppercase;
+}

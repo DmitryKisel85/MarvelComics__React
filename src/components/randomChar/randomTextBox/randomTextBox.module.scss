@@ -1,0 +1,51 @@
+@use "style/variables" as *;
+@use "style/button" as *;
+@use "style/mixins" as *;
+@use "style/media" as *;
+
+.root {
+	padding: remsize(40) remsize(35);
+	background-color: $dark;
+	position: relative;
+	button {
+		margin-top: remsize(13);
+	}
+
+	@include mobile {
+		padding: remsize(25) remsize(10);
+	}
+}
+
+.title {
+	font-weight: bold;
+	font-size: remsize(24);
+	line-height: remsize(32);
+	letter-spacing: -0.045em;
+	color: #ffffff;
+	&:nth-child(2) {
+		margin-top: remsize(33);
+	}
+
+	@include mobile {
+		&:nth-child(2) {
+			margin-top: remsize(10);
+		}
+	}
+}
+
+.img {
+	position: absolute;
+	bottom: remsize(14);
+	right: remsize(-37);
+
+	@include tablet {
+		right: remsize(-65);
+		bottom: remsize(1);
+		width: remsize(250);
+	}
+
+	@include mobile {
+		right: remsize(-23);
+		width: remsize(120);
+	}
+}
