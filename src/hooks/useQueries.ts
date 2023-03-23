@@ -39,3 +39,13 @@ export const useGetComicQuery = (comicId: string | undefined) => {
 		refetchOnWindowFocus: false,
 	});
 };
+
+export const useGetRandomCharQuery = () => {
+	const { getChar } = useMarvelService();
+
+	return useQuery(["randomchar"], () => getChar(Math.floor(Math.random() * (1011400 - 1011000) + 1011000)), {
+		keepPreviousData: true,
+		refetchOnWindowFocus: false,
+		refetchInterval: 100000,
+	});
+};
