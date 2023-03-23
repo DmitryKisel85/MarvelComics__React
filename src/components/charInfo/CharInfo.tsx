@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import cx from "classnames";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
@@ -9,6 +8,7 @@ import { IMGNOTFND } from "constant";
 import { useMarvelService } from "hooks/useMarvelService";
 
 import s from "./charInfo.module.scss";
+import { Button } from "components/button";
 
 interface CharInfoProps {
 	charId: number | null;
@@ -44,20 +44,12 @@ const CharInfo = ({ charId }: CharInfoProps) => {
 							<div className={s.innerContainer}>
 								<div className={s.head}>{name}</div>
 								<div className={s.btns}>
-									<a
-										href={homepage}
-										className={cx(s.btn, s.btnMain)}
-										target='_blank'
-										rel='noreferrer'>
-										<div className={s.btnInner}>homepage</div>
-									</a>
-									<a
-										href={wiki}
-										className={cx(s.btn, s.btnSecondary)}
-										target='_blank'
-										rel='noreferrer'>
-										<div className={s.btnInner}>Wiki</div>
-									</a>
+									<Button isMain href={homepage}>
+										homepage
+									</Button>
+									<Button isSecondary href={wiki}>
+										wiki
+									</Button>
 								</div>
 							</div>
 						</div>

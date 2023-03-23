@@ -1,4 +1,6 @@
-import cx from "classnames";
+// import cx from "classnames";
+
+import { Button } from "components/button";
 
 import { IMGNOTFND } from "constant";
 
@@ -25,12 +27,12 @@ const RandomCharBox = ({ char }: IRandomCharBoxProps) => {
 				<p className={s.name}>{name}</p>
 				<p className={s.descr}>{description}</p>
 				<div className={s.btns}>
-					<a href={homepage} className={cx(s.btn, s.btnMain)} target='_blank' rel='noreferrer'>
-						<div className={s.btnInner}>Homepage</div>
-					</a>
-					<a href={wiki} className={cx(s.btn, s.btnSecondary)} target='_blank' rel='noreferrer'>
-						<div className={s.btnInner}>Wiki</div>
-					</a>
+					<Button href={homepage} isMain>
+						Homepage
+					</Button>
+					<Button href={wiki} isSecondary>
+						Wiki
+					</Button>
 				</div>
 			</div>
 		</div>

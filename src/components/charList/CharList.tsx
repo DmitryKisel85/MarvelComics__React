@@ -1,11 +1,11 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import cx from "classnames";
 
 import { useMarvelService } from "hooks/useMarvelService";
 
 import { Spinner } from "components/spinner";
 import { ErrorMessage } from "components/errorMessage";
 import { CharItem } from "components/charItem";
+import { Button } from "components/button";
 
 import s from "./charList.module.scss";
 
@@ -48,12 +48,9 @@ const CharList = ({ onCharSelected, selectedChar }: CharlistProps) => {
 						)}
 					</ul>
 					{hasNextPage && (
-						<button
-							className={cx(s.btn, s.btnMain, s.btnLong)}
-							disabled={isFetchingNextPage}
-							onClick={handleLoadMoreBtnClick}>
-							<div className={s.btnInner}>load more</div>
-						</button>
+						<Button isMain isLong disabled={isFetchingNextPage} onClick={handleLoadMoreBtnClick}>
+							load more
+						</Button>
 					)}
 				</div>
 			)}
